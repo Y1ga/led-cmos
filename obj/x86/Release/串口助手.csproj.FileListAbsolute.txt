@@ -1,0 +1,26 @@
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\x86\Release\dll\x86\OpenCvSharpExtern.dll
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\x86\Release\dll\x86\opencv_videoio_ffmpeg420.dll
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\x86\Release\dll\x64\OpenCvSharpExtern.dll
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\x86\Release\dll\x64\opencv_videoio_ffmpeg420_64.dll
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\x86\Release\ASICamera2.dll
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\x86\Release\串口助手 V1.1.exe
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\x86\Release\串口助手 V1.1.pdb
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\x86\Release\OpenCvSharp.Blob.dll
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\x86\Release\OpenCvSharp.dll
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\x86\Release\OpenCvSharp.Extensions.dll
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\x86\Release\OpenCvSharp.UserInterface.dll
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\x86\Release\OpenCvSharp.pdb
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\x86\Release\OpenCvSharp.xml
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\x86\Release\OpenCvSharp.Blob.pdb
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\x86\Release\OpenCvSharp.Blob.xml
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\x86\Release\OpenCvSharp.Extensions.pdb
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\x86\Release\OpenCvSharp.Extensions.xml
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\x86\Release\OpenCvSharp.UserInterface.pdb
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\x86\Release\OpenCvSharp.UserInterface.xml
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\obj\x86\Release\串口助手.Form1.resources
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\obj\x86\Release\串口助手.Properties.Resources.resources
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\obj\x86\Release\串口助手.csproj.GenerateResource.cache
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\obj\x86\Release\串口助手.csproj.CoreCompileInputs.cache
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\obj\x86\Release\串口助手.csproj.CopyComplete
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\obj\x86\Release\串口助手 V1.1.exe
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\obj\x86\Release\串口助手 V1.1.pdb

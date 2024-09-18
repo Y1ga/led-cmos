@@ -1,0 +1,51 @@
+E:\VS\CS\14-串口助手\串口助手\串口助手\bin\Debug\串口助手 V1.0.exe
+E:\VS\CS\14-串口助手\串口助手\串口助手\obj\Debug\串口助手.Form1.resources
+E:\VS\CS\14-串口助手\串口助手\串口助手\obj\Debug\串口助手.Properties.Resources.resources
+E:\VS\CS\14-串口助手\串口助手\串口助手\obj\Debug\串口助手.csproj.GenerateResource.Cache
+E:\VS\CS\14-串口助手\串口助手\串口助手\obj\Debug\串口助手 V1.0.exe
+E:\VS\CS\14-串口助手\串口助手\串口助手\obj\Debug\串口助手 V1.0.pdb
+E:\VS\CS\14-串口助手\串口助手\串口助手\bin\Debug\串口助手 V1.0.pdb
+E:\VS\CS\14-串口助手\串口助手\串口助手\obj\Debug\串口助手.csprojResolveAssemblyReference.cache
+E:\教程\STM32入门教程\资料\工具软件\串口助手\串口助手-工程源码\串口助手\obj\Debug\串口助手.csprojResolveAssemblyReference.cache
+E:\教程\STM32入门教程\资料\工具软件\串口助手\串口助手-工程源码\串口助手\obj\Debug\串口助手.Form1.resources
+E:\教程\STM32入门教程\资料\工具软件\串口助手\串口助手-工程源码\串口助手\obj\Debug\串口助手.Properties.Resources.resources
+E:\教程\STM32入门教程\资料\工具软件\串口助手\串口助手-工程源码\串口助手\obj\Debug\串口助手.csproj.GenerateResource.Cache
+E:\教程\STM32入门教程\资料\工具软件\串口助手\串口助手-工程源码\串口助手\bin\Debug\串口助手 V1.1.exe
+E:\教程\STM32入门教程\资料\工具软件\串口助手\串口助手-工程源码\串口助手\bin\Debug\串口助手 V1.1.pdb
+E:\教程\STM32入门教程\资料\工具软件\串口助手\串口助手-工程源码\串口助手\obj\Debug\串口助手 V1.1.exe
+E:\教程\STM32入门教程\资料\工具软件\串口助手\串口助手-工程源码\串口助手\obj\Debug\串口助手 V1.1.pdb
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\Debug\dll\x86\OpenCvSharpExtern.dll
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\Debug\dll\x86\opencv_videoio_ffmpeg420.dll
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\Debug\dll\x64\OpenCvSharpExtern.dll
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\Debug\dll\x64\opencv_videoio_ffmpeg420_64.dll
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\Debug\ASICamera2.dll
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\Debug\串口助手 V1.1.exe
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\Debug\串口助手 V1.1.pdb
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\Debug\OpenCvSharp.Blob.dll
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\Debug\OpenCvSharp.dll
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\Debug\OpenCvSharp.Extensions.dll
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\Debug\OpenCvSharp.UserInterface.dll
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\Debug\OpenCvSharp.pdb
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\Debug\OpenCvSharp.xml
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\Debug\OpenCvSharp.Blob.pdb
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\Debug\OpenCvSharp.Blob.xml
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\Debug\OpenCvSharp.Extensions.pdb
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\Debug\OpenCvSharp.Extensions.xml
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\Debug\OpenCvSharp.UserInterface.pdb
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\Debug\OpenCvSharp.UserInterface.xml
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\obj\Debug\串口助手.csproj.AssemblyReference.cache
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\obj\Debug\串口助手.Form1.resources
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\obj\Debug\串口助手.Properties.Resources.resources
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\obj\Debug\串口助手.csproj.GenerateResource.cache
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\obj\Debug\串口助手.csproj.CoreCompileInputs.cache
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\obj\Debug\串口助手 V1.1.exe
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\obj\Debug\串口助手 V1.1.pdb
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\Debug\Interop.WMPLib.dll
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\Debug\AxInterop.WMPLib.dll
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\obj\Debug\Interop.WMPLib.dll
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\obj\Debug\AxInterop.WMPLib.dll
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\obj\Debug\串口助手.csproj.ResolveComReference.cache
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\Debug\EasyModbus.dll
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\bin\Debug\EasyModbus.xml
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\obj\Debug\ASICamera_demo.Form2.resources
+C:\Users\z1002\Desktop\Project\LED\C sharp\串口助手-工程源码\串口助手\obj\Debug\串口助手.csproj.CopyComplete
