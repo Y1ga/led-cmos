@@ -34,6 +34,19 @@ namespace ASICamera_demo
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.groupBox15 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel15 = new System.Windows.Forms.TableLayoutPanel();
+            this.start_mono = new System.Windows.Forms.Button();
+            this.stop_mono = new System.Windows.Forms.Button();
+            this.tableLayoutPanel14 = new System.Windows.Forms.TableLayoutPanel();
+            this.label17 = new System.Windows.Forms.Label();
+            this.manual_mono = new System.Windows.Forms.RadioButton();
+            this.auto_mono = new System.Windows.Forms.RadioButton();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label45 = new System.Windows.Forms.Label();
+            this.mono_stride = new System.Windows.Forms.ComboBox();
+            this.current_mono = new System.Windows.Forms.NumericUpDown();
+            this.mono_interval = new System.Windows.Forms.NumericUpDown();
             this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
             this.capture_config_label = new System.Windows.Forms.Label();
@@ -73,11 +86,7 @@ namespace ASICamera_demo
             this.comboBox_imageFormat = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.trackBar_expLimit = new System.Windows.Forms.TrackBar();
-            this.spinBox_expLimit = new System.Windows.Forms.NumericUpDown();
-            this.label20 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.checkBox_exposureAuto = new System.Windows.Forms.CheckBox();
@@ -185,6 +194,11 @@ namespace ASICamera_demo
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.groupBox10.SuspendLayout();
+            this.groupBox15.SuspendLayout();
+            this.tableLayoutPanel15.SuspendLayout();
+            this.tableLayoutPanel14.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.current_mono)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mono_interval)).BeginInit();
             this.groupBox14.SuspendLayout();
             this.groupBox13.SuspendLayout();
             this.tableLayoutPanel12.SuspendLayout();
@@ -195,8 +209,6 @@ namespace ASICamera_demo
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_expLimit)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.spinBox_expLimit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_exposure)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinBox_exposure)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinBox_gain)).BeginInit();
@@ -279,6 +291,7 @@ namespace ASICamera_demo
             // 
             // groupBox10
             // 
+            this.groupBox10.Controls.Add(this.groupBox15);
             this.groupBox10.Controls.Add(this.tableLayoutPanel13);
             this.groupBox10.Controls.Add(this.groupBox14);
             this.groupBox10.Controls.Add(this.groupBox13);
@@ -290,6 +303,193 @@ namespace ASICamera_demo
             this.groupBox10.TabIndex = 1;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "groupBox10";
+            // 
+            // groupBox15
+            // 
+            this.groupBox15.Controls.Add(this.tableLayoutPanel15);
+            this.groupBox15.Controls.Add(this.tableLayoutPanel14);
+            this.groupBox15.Location = new System.Drawing.Point(308, 16);
+            this.groupBox15.Name = "groupBox15";
+            this.groupBox15.Size = new System.Drawing.Size(137, 96);
+            this.groupBox15.TabIndex = 6;
+            this.groupBox15.TabStop = false;
+            this.groupBox15.Text = "groupBox15";
+            // 
+            // tableLayoutPanel15
+            // 
+            this.tableLayoutPanel15.ColumnCount = 1;
+            this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel15.Controls.Add(this.start_mono, 0, 0);
+            this.tableLayoutPanel15.Controls.Add(this.stop_mono, 0, 1);
+            this.tableLayoutPanel15.Location = new System.Drawing.Point(91, 40);
+            this.tableLayoutPanel15.Name = "tableLayoutPanel15";
+            this.tableLayoutPanel15.RowCount = 2;
+            this.tableLayoutPanel15.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel15.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel15.Size = new System.Drawing.Size(51, 49);
+            this.tableLayoutPanel15.TabIndex = 15;
+            // 
+            // start_mono
+            // 
+            this.start_mono.AutoSize = true;
+            this.start_mono.Location = new System.Drawing.Point(3, 3);
+            this.start_mono.Name = "start_mono";
+            this.start_mono.Size = new System.Drawing.Size(45, 18);
+            this.start_mono.TabIndex = 0;
+            this.start_mono.Text = "Start";
+            this.start_mono.UseVisualStyleBackColor = true;
+            this.start_mono.Click += new System.EventHandler(this.start_mono_Click);
+            // 
+            // stop_mono
+            // 
+            this.stop_mono.AutoSize = true;
+            this.stop_mono.Location = new System.Drawing.Point(3, 27);
+            this.stop_mono.Name = "stop_mono";
+            this.stop_mono.Size = new System.Drawing.Size(39, 19);
+            this.stop_mono.TabIndex = 1;
+            this.stop_mono.Text = "Stop";
+            this.stop_mono.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel14
+            // 
+            this.tableLayoutPanel14.ColumnCount = 2;
+            this.tableLayoutPanel14.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel14.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel14.Controls.Add(this.label17, 0, 1);
+            this.tableLayoutPanel14.Controls.Add(this.manual_mono, 1, 0);
+            this.tableLayoutPanel14.Controls.Add(this.auto_mono, 0, 0);
+            this.tableLayoutPanel14.Controls.Add(this.label20, 0, 2);
+            this.tableLayoutPanel14.Controls.Add(this.label45, 0, 3);
+            this.tableLayoutPanel14.Controls.Add(this.mono_stride, 1, 1);
+            this.tableLayoutPanel14.Controls.Add(this.current_mono, 1, 3);
+            this.tableLayoutPanel14.Controls.Add(this.mono_interval, 1, 2);
+            this.tableLayoutPanel14.Location = new System.Drawing.Point(9, 20);
+            this.tableLayoutPanel14.Name = "tableLayoutPanel14";
+            this.tableLayoutPanel14.RowCount = 4;
+            this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel14.Size = new System.Drawing.Size(79, 70);
+            this.tableLayoutPanel14.TabIndex = 0;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(3, 17);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(29, 17);
+            this.label17.TabIndex = 2;
+            this.label17.Text = "Stride";
+            // 
+            // manual_mono
+            // 
+            this.manual_mono.AutoSize = true;
+            this.manual_mono.Location = new System.Drawing.Point(42, 3);
+            this.manual_mono.Name = "manual_mono";
+            this.manual_mono.Size = new System.Drawing.Size(34, 11);
+            this.manual_mono.TabIndex = 1;
+            this.manual_mono.TabStop = true;
+            this.manual_mono.Text = "Manual";
+            this.manual_mono.UseVisualStyleBackColor = true;
+            // 
+            // auto_mono
+            // 
+            this.auto_mono.AutoSize = true;
+            this.auto_mono.Checked = true;
+            this.auto_mono.Location = new System.Drawing.Point(3, 3);
+            this.auto_mono.Name = "auto_mono";
+            this.auto_mono.Size = new System.Drawing.Size(33, 11);
+            this.auto_mono.TabIndex = 0;
+            this.auto_mono.TabStop = true;
+            this.auto_mono.Text = "Auto";
+            this.auto_mono.UseVisualStyleBackColor = true;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(3, 34);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(29, 17);
+            this.label20.TabIndex = 3;
+            this.label20.Text = "Interval";
+            // 
+            // label45
+            // 
+            this.label45.AutoSize = true;
+            this.label45.Location = new System.Drawing.Point(3, 51);
+            this.label45.Name = "label45";
+            this.label45.Size = new System.Drawing.Size(29, 19);
+            this.label45.TabIndex = 4;
+            this.label45.Text = "Current";
+            // 
+            // mono_stride
+            // 
+            this.mono_stride.FormattingEnabled = true;
+            this.mono_stride.Items.AddRange(new object[] {
+            "10",
+            "5",
+            "2",
+            "1"});
+            this.mono_stride.Location = new System.Drawing.Point(42, 20);
+            this.mono_stride.Name = "mono_stride";
+            this.mono_stride.Size = new System.Drawing.Size(34, 20);
+            this.mono_stride.TabIndex = 5;
+            this.mono_stride.Text = "10";
+            // 
+            // current_mono
+            // 
+            this.current_mono.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.current_mono.Location = new System.Drawing.Point(42, 54);
+            this.current_mono.Maximum = new decimal(new int[] {
+            700,
+            0,
+            0,
+            0});
+            this.current_mono.Minimum = new decimal(new int[] {
+            400,
+            0,
+            0,
+            0});
+            this.current_mono.Name = "current_mono";
+            this.current_mono.Size = new System.Drawing.Size(34, 21);
+            this.current_mono.TabIndex = 6;
+            this.current_mono.Value = new decimal(new int[] {
+            400,
+            0,
+            0,
+            0});
+            // 
+            // mono_interval
+            // 
+            this.mono_interval.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.mono_interval.Location = new System.Drawing.Point(42, 37);
+            this.mono_interval.Maximum = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.mono_interval.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.mono_interval.Name = "mono_interval";
+            this.mono_interval.Size = new System.Drawing.Size(34, 21);
+            this.mono_interval.TabIndex = 7;
+            this.mono_interval.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             // 
             // tableLayoutPanel13
             // 
@@ -309,7 +509,7 @@ namespace ASICamera_demo
             this.groupBox14.Controls.Add(this.capture_config_label);
             this.groupBox14.Location = new System.Drawing.Point(147, 123);
             this.groupBox14.Name = "groupBox14";
-            this.groupBox14.Size = new System.Drawing.Size(111, 67);
+            this.groupBox14.Size = new System.Drawing.Size(135, 67);
             this.groupBox14.TabIndex = 4;
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "groupBox14";
@@ -411,7 +611,7 @@ namespace ASICamera_demo
             // 
             this.pictureBox1.Location = new System.Drawing.Point(25, 16);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(322, 101);
+            this.pictureBox1.Size = new System.Drawing.Size(260, 101);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
@@ -633,9 +833,9 @@ namespace ASICamera_demo
             this.groupBox4.Controls.Add(this.label6);
             this.groupBox4.Controls.Add(this.comboBox_imageFormat);
             this.groupBox4.Controls.Add(this.label3);
-            this.groupBox4.Location = new System.Drawing.Point(23, 293);
+            this.groupBox4.Location = new System.Drawing.Point(23, 261);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(409, 104);
+            this.groupBox4.Size = new System.Drawing.Size(409, 79);
             this.groupBox4.TabIndex = 13;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "ImageFormat";
@@ -702,11 +902,7 @@ namespace ASICamera_demo
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.trackBar_expLimit);
-            this.groupBox3.Controls.Add(this.spinBox_expLimit);
-            this.groupBox3.Controls.Add(this.label20);
             this.groupBox3.Controls.Add(this.label18);
-            this.groupBox3.Controls.Add(this.label17);
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.checkBox_exposureAuto);
@@ -719,55 +915,10 @@ namespace ASICamera_demo
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Location = new System.Drawing.Point(21, 140);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(446, 147);
+            this.groupBox3.Size = new System.Drawing.Size(446, 105);
             this.groupBox3.TabIndex = 12;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Control";
-            // 
-            // trackBar_expLimit
-            // 
-            this.trackBar_expLimit.Enabled = false;
-            this.trackBar_expLimit.Location = new System.Drawing.Point(131, 113);
-            this.trackBar_expLimit.Maximum = 1000;
-            this.trackBar_expLimit.Minimum = 1;
-            this.trackBar_expLimit.Name = "trackBar_expLimit";
-            this.trackBar_expLimit.Size = new System.Drawing.Size(62, 45);
-            this.trackBar_expLimit.TabIndex = 34;
-            this.trackBar_expLimit.Value = 1000;
-            this.trackBar_expLimit.Scroll += new System.EventHandler(this.trackBar_expLimit_Scroll);
-            // 
-            // spinBox_expLimit
-            // 
-            this.spinBox_expLimit.Enabled = false;
-            this.spinBox_expLimit.Location = new System.Drawing.Point(234, 114);
-            this.spinBox_expLimit.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.spinBox_expLimit.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.spinBox_expLimit.Name = "spinBox_expLimit";
-            this.spinBox_expLimit.Size = new System.Drawing.Size(76, 21);
-            this.spinBox_expLimit.TabIndex = 33;
-            this.spinBox_expLimit.Value = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.spinBox_expLimit.ValueChanged += new System.EventHandler(this.spinBox_expLimit_ValueChanged);
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(23, 124);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(77, 12);
-            this.label20.TabIndex = 32;
-            this.label20.Text = "Exposure(ms)";
             // 
             // label18
             // 
@@ -777,15 +928,6 @@ namespace ASICamera_demo
             this.label18.Size = new System.Drawing.Size(53, 12);
             this.label18.TabIndex = 28;
             this.label18.Text = "32us->1s";
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(15, 105);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(71, 12);
-            this.label17.TabIndex = 27;
-            this.label17.Text = "AutoLimits:";
             // 
             // label2
             // 
@@ -1948,6 +2090,13 @@ namespace ASICamera_demo
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.groupBox10.ResumeLayout(false);
+            this.groupBox15.ResumeLayout(false);
+            this.tableLayoutPanel15.ResumeLayout(false);
+            this.tableLayoutPanel15.PerformLayout();
+            this.tableLayoutPanel14.ResumeLayout(false);
+            this.tableLayoutPanel14.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.current_mono)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mono_interval)).EndInit();
             this.groupBox14.ResumeLayout(false);
             this.groupBox14.PerformLayout();
             this.groupBox13.ResumeLayout(false);
@@ -1964,8 +2113,6 @@ namespace ASICamera_demo
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_expLimit)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.spinBox_expLimit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_exposure)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinBox_exposure)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinBox_gain)).EndInit();
@@ -2064,11 +2211,7 @@ namespace ASICamera_demo
         private System.Windows.Forms.CheckBox checkBox_exposureAuto;
         private System.Windows.Forms.CheckBox checkBox_gainAuto;
         private System.Windows.Forms.Label label_temperature;
-        private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.TrackBar trackBar_expLimit;
-        private System.Windows.Forms.NumericUpDown spinBox_expLimit;
-        private System.Windows.Forms.Label label20;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -2171,6 +2314,19 @@ namespace ASICamera_demo
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel13;
         private System.Windows.Forms.GroupBox groupBox14;
         private System.Windows.Forms.Label capture_config_label;
+        private System.Windows.Forms.GroupBox groupBox15;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel14;
+        private System.Windows.Forms.RadioButton auto_mono;
+        private System.Windows.Forms.RadioButton manual_mono;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label45;
+        private System.Windows.Forms.ComboBox mono_stride;
+        private System.Windows.Forms.NumericUpDown current_mono;
+        private System.Windows.Forms.NumericUpDown mono_interval;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel15;
+        private System.Windows.Forms.Button start_mono;
+        private System.Windows.Forms.Button stop_mono;
     }
 }
 
