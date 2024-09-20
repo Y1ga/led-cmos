@@ -24,6 +24,7 @@ namespace ASICamera_demo
     {
         /*保存日志*/
         public static string log;
+        public static string exp_log;
 
         // camera object
         private Camera m_camera = new Camera();
@@ -37,6 +38,11 @@ namespace ASICamera_demo
         System.Windows.Forms.NumericUpDown[] ledSpinBoxs = new System.Windows.Forms.NumericUpDown[
             16
         ];
+
+        // 自动曝光调整因子α, β
+        private double alpha = 1;
+        private double beta = 0.5;
+        private int count_254 = 0;
 
         // led阵列
         LedArray led_array = new LedArray();
@@ -151,6 +157,10 @@ namespace ASICamera_demo
                 + Convert.ToInt32(m_camera.Std_hist)
                 + "\n";
             label23.Text = hist_string;
+            if (m_camera.Min_hist == 0)
+            {
+                ;
+            }
         }
 
         private void DisplayCapture(Bitmap bmp, uint flag)
@@ -238,6 +248,84 @@ namespace ASICamera_demo
                     SemaphoreHolder.log.Release();
                 }
             }
+            else if (flag == 2)
+            {
+                SemaphoreHolder.refresh.WaitOne();
+                //更新文件名
+                m_camera.File_name =
+                    "EXP_LED" + led_array.Selected_index + "_" + led_array.Selected_value;
+                //+ "_["
+                //    + led_array.Pwm_exp[led_array.Selected_index, 0]
+                //    + ","
+                //    + led_array.Pwm_exp[led_array.Selected_index, 1]
+                //    + "]"
+                string save_img_dir_path =
+                    m_camera.SelectedFolderPath
+                    + "/"
+                    + Camera.Datetime
+                    + "__"
+                    + m_camera.File_name
+                    + ".png";
+                label44.Text =
+                    "LED"
+                    + Convert.ToString(led_array.Selected_index)
+                    + ": "
+                    + Convert.ToString(led_array.Selected_value);
+                bmp.Save(save_img_dir_path);
+
+                save_img_name_label.Text =
+                    "EXP_LED"
+                    + Convert.ToString(led_array.Selected_index)
+                    + ": "
+                    + Convert.ToString(led_array.Selected_value);
+
+                if (led_array.Selected_value == 6)
+                {
+                    exp_log +=
+                        "LED"
+                        + Convert.ToString(led_array.Selected_index)
+                        + ": ["
+                        + Convert.ToString(led_array.Pwm_exp[led_array.Selected_index - 1, 0])
+                        + ","
+                        + Convert.ToString(led_array.Pwm_exp[led_array.Selected_index - 1, 1])
+                        + "]\n";
+                }
+
+                if (led_array.Selected_index == 14 && led_array.Selected_value == 6)
+                {
+                    led_array.Current_pwm_exp[0, 1] = led_array.Pwm_exp[1, 0];
+                    led_array.Current_pwm_exp[1, 1] = led_array.Pwm_exp[1, 1];
+                    for (int i = 1; i < 14; i++)
+                    {
+                        if (led_array.Pwm_exp[i, 0] < led_array.Current_pwm_exp[0, 1])
+                        {
+                            led_array.Current_pwm_exp[0, 0] = i + 1;
+                            led_array.Current_pwm_exp[0, 1] = led_array.Pwm_exp[i, 0];
+                        }
+                        if (led_array.Pwm_exp[i, 1] > led_array.Current_pwm_exp[1, 1])
+                        {
+                            led_array.Current_pwm_exp[1, 0] = i + 1;
+                            led_array.Current_pwm_exp[1, 1] = led_array.Pwm_exp[i, 1];
+                        }
+                    }
+                    exp_log +=
+                        "Current: \n"
+                        + "Min: "
+                        + Convert.ToString(led_array.Current_pwm_exp[0, 1])
+                        + ", LED"
+                        + led_array.Current_pwm_exp[0, 0]
+                        + "\n"
+                        + "Max: "
+                        + Convert.ToString(led_array.Current_pwm_exp[1, 1])
+                        + ", LED"
+                        + led_array.Current_pwm_exp[1, 0]
+                        + "\n";
+                    SemaphoreHolder.log.Release();
+                }
+                led_array.Selected_value = 0;
+                led_array.Value[led_array.Selected_index - 1] = led_array.Selected_value;
+                SemaphoreHolder.reset.Release();
+            }
         }
 
         public void PopupMessageBox(string str, int iVal)
@@ -283,10 +371,6 @@ namespace ASICamera_demo
             {
                 button_open.Enabled = false;
                 label_cameraInfo.Visible = false;
-                label_color.Visible = false;
-                label_cooler.Visible = false;
-                label_USB.Visible = false;
-                label_USBHost.Visible = false;
 
                 comboBox_cameraName.Items.Clear();
                 comboBox_cameraName.Text = "";
@@ -381,33 +465,7 @@ namespace ASICamera_demo
 
                 button_open.Enabled = true;
                 label_cameraInfo.Visible = true;
-                label_color.Visible = true;
-                label_cooler.Visible = true;
-                label_USB.Visible = true;
-                label_USBHost.Visible = true;
-                label_SN.Visible = true;
                 label_temperature.Visible = true;
-
-                if (m_camera.getIsColor())
-                    label_color.Text = "Color";
-                else
-                    label_color.Text = "UnColor";
-                if (m_camera.getIsCooler())
-                    label_cooler.Text = "Cooler";
-                else
-                    label_cooler.Text = "UnCooler";
-                if (m_camera.getIsUSB3())
-                    label_USB.Text = "USB3Camera";
-                else
-                    label_USB.Text = "USB2Camera";
-                if (m_camera.getIsUSB3Host())
-                    label_USBHost.Text = "USB3Host";
-                else
-                    label_USBHost.Text = "USB2Host";
-                if (m_camera.getIsUSB3Host())
-                    label_USBHost.Text = "USB3Host";
-                else
-                    label_USBHost.Text = "USB2Host";
             }
             // Set the callback of UI refresh delegation
             m_camera.SetRefreshUICallBack(RefreshUI);
@@ -593,36 +651,11 @@ namespace ASICamera_demo
 
                 button_open.Enabled = true;
                 label_cameraInfo.Visible = true;
-                label_color.Visible = true;
-                label_cooler.Visible = true;
-                label_USB.Visible = true;
-                label_USBHost.Visible = true;
-
-                if (m_camera.getIsColor())
-                    label_color.Text = "Color";
-                else
-                    label_color.Text = "UnColor";
-                if (m_camera.getIsCooler())
-                    label_cooler.Text = "Cooler";
-                else
-                    label_cooler.Text = "UnCooler";
-                if (m_camera.getIsUSB3())
-                    label_USB.Text = "USB3Camera";
-                else
-                    label_USB.Text = "USB2Camera";
-                if (m_camera.getIsUSB3Host())
-                    label_USBHost.Text = "USB3Host";
-                else
-                    label_USBHost.Text = "USB2Host";
             }
             else
             {
                 button_open.Enabled = false;
                 label_cameraInfo.Visible = false;
-                label_color.Visible = false;
-                label_cooler.Visible = false;
-                label_USB.Visible = false;
-                label_USBHost.Visible = false;
 
                 comboBox_cameraName.Items.Clear();
                 comboBox_cameraName.Text = "";
@@ -835,51 +868,184 @@ namespace ASICamera_demo
             }
             else
             {
-                // 自动曝光
-                // 很大概率有线程安全问题！！！
-                // 慎用！开启时，不要动其他按钮！
+                this.Invoke(
+                    (MethodInvoker)
+                        delegate
+                        {
+                            trackBar_exposure.Enabled = false;
+                            spinBox_exposure.Enabled = false;
+                        }
+                );
+
                 Thread thread = new Thread(() =>
                 {
+                    SemaphoreHolder.rwLock.EnterWriteLock();
+                    SemaphoreHolder.is_auto = true;
+                    SemaphoreHolder.is_changed = true;
+                    SemaphoreHolder.rwLock.ExitWriteLock();
+                    int count = 0;
                     while (checkBox_exposureAuto.Checked)
                     {
-                        int expMs;
-                        m_camera.getControlValue(
-                            ASICameraDll2.ASI_CONTROL_TYPE.ASI_EXPOSURE,
-                            out expMs
-                        );
-                        // 需要sleep保证得到的上一帧曝光时间无误
-                        Thread.Sleep(500);
-                        val = expMs * 128 / Convert.ToInt32(m_camera.Mean_hist + 1);
-                        if (
-                            m_camera.setControlValueAuto(
-                                ASICameraDll2.ASI_CONTROL_TYPE.ASI_EXPOSURE,
-                                val,
-                                ASICameraDll2.ASI_BOOL.ASI_TRUE
-                            )
-                        )
+                        if (count == 0)
                         {
-                            this.Invoke(
-                                (MethodInvoker)
-                                    delegate
-                                    {
-                                        trackBar_exposure.Enabled = false;
-                                        spinBox_exposure.Enabled = false;
-                                    }
-                            );
+                            SemaphoreHolder.reset.WaitOne();
+                            SemaphoreHolder.reset.WaitOne();
+                            SemaphoreHolder.rwLock.EnterWriteLock();
+                            AutoExposure(0);
+                            SemaphoreHolder.rwLock.ExitWriteLock();
+                            SemaphoreHolder.set.Release();
+                            SemaphoreHolder.refresh.Release();
+                        }
+                        else
+                        {
+                            SemaphoreHolder.reset.WaitOne();
+                            SemaphoreHolder.reset.WaitOne();
+                            SemaphoreHolder.rwLock.EnterWriteLock();
+                            AutoExposure(1);
+                            SemaphoreHolder.rwLock.ExitWriteLock();
+                            SemaphoreHolder.set.Release();
+                            SemaphoreHolder.refresh.Release();
+                        }
+                        count++;
+                        if (count_254 == 5)
+                        {
+                            break;
                         }
                     }
-                    // sleep500ms，最土最简单的防止线程安全问题，但不能治本，只能应急！！！
-                    Thread.Sleep(500);
-                    this.Invoke(
-                        (MethodInvoker)
-                            delegate
-                            {
-                                spinBox_exposure.Enabled = true;
-                            }
-                    );
+
+                    SemaphoreHolder.rwLock.EnterWriteLock();
+                    SemaphoreHolder.is_auto = false;
+                    SemaphoreHolder.rwLock.ExitWriteLock();
                 });
                 thread.Start();
+
+                //{
+                //    // 自动曝光
+                //    // 很大概率有线程安全问题！！！
+                //    // 慎用！开启时，不要动其他按钮！
+                //    Thread thread = new Thread(() =>
+                //    {
+                //        while (checkBox_exposureAuto.Checked)
+                //        {
+                //            int expMs;
+                //            m_camera.getControlValue(
+                //                ASICameraDll2.ASI_CONTROL_TYPE.ASI_EXPOSURE,
+                //                out expMs
+                //            );
+                //            // 需要sleep保证得到的上一帧曝光时间无误
+                //            Thread.Sleep(500);
+                //            val = expMs * 128 / Convert.ToInt32(m_camera.Mean_hist + 1);
+                //            if (
+                //                m_camera.setControlValueAuto(
+                //                    ASICameraDll2.ASI_CONTROL_TYPE.ASI_EXPOSURE,
+                //                    val,
+                //                    ASICameraDll2.ASI_BOOL.ASI_TRUE
+                //                )
+                //            )
+                //            {
+                //                this.Invoke(
+                //                    (MethodInvoker)
+                //                        delegate
+                //                        {
+                //                            trackBar_exposure.Enabled = false;
+                //                            spinBox_exposure.Enabled = false;
+                //                        }
+                //                );
+                //            }
+                //        }
+                //        // sleep500ms，最土最简单的防止线程安全问题，但不能治本，只能应急！！！
+                //        Thread.Sleep(500);
+                //        this.Invoke(
+                //            (MethodInvoker)
+                //                delegate
+                //                {
+                //                    spinBox_exposure.Enabled = true;
+                //                }
+                //        );
+                //    });
+                //    thread.Start();
+                //}
             }
+        }
+
+        private int AutoExposure(int flag)
+        {
+            int val = -1;
+            // flag = 0 表示按照平均值自动曝光
+            // flag = 1 表示按照最大值自动曝光
+            if (flag == 0)
+            {
+                /*业务层*/
+                int expMs;
+                m_camera.getControlValue(ASICameraDll2.ASI_CONTROL_TYPE.ASI_EXPOSURE, out expMs);
+                // 需要sleep保证得到的上一帧曝光时间无误
+                Thread.Sleep(500);
+                val = expMs * 128 / Convert.ToInt32(m_camera.Mean_hist + 1);
+                m_camera.setControlValueAuto(
+                    ASICameraDll2.ASI_CONTROL_TYPE.ASI_EXPOSURE,
+                    val,
+                    ASICameraDll2.ASI_BOOL.ASI_TRUE
+                );
+            }
+            else if (flag == 1)
+            {
+                int expMs;
+
+                m_camera.getControlValue(ASICameraDll2.ASI_CONTROL_TYPE.ASI_EXPOSURE, out expMs);
+                // 需要sleep保证得到的上一帧曝光时间无误
+                Thread.Sleep(200);
+                // 1. 快启动阶段
+                if (m_camera.Max_hist < 240)
+                {
+                    val = (int)(expMs * 240 / (Convert.ToInt32(m_camera.Max_hist + 1)));
+                }
+                // 2. 拥塞避免阶段
+                else if (m_camera.Max_hist >= 240 && m_camera.Max_hist < 250)
+                {
+                    val = (int)(
+                        expMs * 250 / (Convert.ToInt32(m_camera.Max_hist + 1)) + 1.5 / 255 * expMs
+                    );
+                }
+                else if (m_camera.Max_hist >= 250 && m_camera.Max_hist < 254)
+                {
+                    val = (int)(
+                        expMs * 254 / (Convert.ToInt32(m_camera.Max_hist + 1)) + 0.75 / 255 * expMs
+                    );
+                }
+                // 3.接近完美的数值
+                else if (m_camera.Max_hist == 254)
+                {
+                    count_254 = 0;
+                    if (m_camera.Best_exp == expMs)
+                    {
+                        count_254++;
+                    }
+                    m_camera.Best_exp = expMs;
+                    val = m_camera.Best_exp;
+                    //val = (int)(
+                    //    expMs * 254 / (Convert.ToInt32(m_camera.Max_hist + 1)) + 0.75 / 255 * expMs
+                    //);
+                }
+                // 3. 拥塞发生
+                // 问题很大，明天解决。
+                // 1. 为什么到了255曝光值就不变了
+                // 2. 为什么过了255会秒变为0并且m_camera.Min_hist == 0 debug捕捉不到这个情况
+                else if (m_camera.Max_hist == 255)
+                {
+                    val = (int)(m_camera.Best_exp - (int)(5 / 255 * expMs));
+                }
+                else if (m_camera.Min_hist == 0)
+                {
+                    ;
+                }
+                m_camera.setControlValueAuto(
+                    ASICameraDll2.ASI_CONTROL_TYPE.ASI_EXPOSURE,
+                    val,
+                    ASICameraDll2.ASI_BOOL.ASI_TRUE
+                );
+            }
+
+            return val;
         }
 
         private void gainAuto()
@@ -1276,34 +1442,41 @@ namespace ASICamera_demo
         private void serialPort_DataReceived(object sender, SerialDataReceivedEventArgs e) //串口接收数据事件时,开启的是子进程不是主进程!
         {
             if (serialPort.IsOpen)
-            {
-                int count = serialPort.BytesToRead;
-                byte[] dataReceive = new byte[count];
-                serialPort.Read(dataReceive, 0, count); //串口接收
-                this.BeginInvoke(
-                    (EventHandler)(
-                        delegate
-                        {
-                            if (receiveMode == "HEX模式")
+                if (serialPort.IsOpen)
+                {
+                    int count = serialPort.BytesToRead;
+                    byte[] dataReceive = new byte[count];
+                    serialPort.Read(dataReceive, 0, count); //串口接收
+                    this.BeginInvoke(
+                        (EventHandler)(
+                            delegate
                             {
-                                tbReceive.AppendText(BytesToHex(dataReceive)); //字节流转HEX
+                                if (receiveMode == "HEX模式")
+                                {
+                                    tbReceive.AppendText(BytesToHex(dataReceive)); //字节流转HEX
+                                }
+                                else if (receiveMode == "文本模式")
+                                {
+                                    tbReceive.AppendText(BytesToText(dataReceive, receiveCoding)); //字节流转文本
+                                }
+                                if (
+                                    SemaphoreHolder.is_std == false
+                                    && dataReceive.Contains((byte)'y')
+                                )
+                                {
+                                    //SemaphoreHolder.protect_std.Release();
+                                }
+                                if (
+                                    SemaphoreHolder.is_std == true
+                                    && dataReceive.Contains((byte)'y')
+                                )
+                                {
+                                    SemaphoreHolder.send.Release();
+                                }
                             }
-                            else if (receiveMode == "文本模式")
-                            {
-                                tbReceive.AppendText(BytesToText(dataReceive, receiveCoding)); //字节流转文本
-                            }
-                            if (SemaphoreHolder.is_std == false && dataReceive.Contains((byte)'y'))
-                            {
-                                SemaphoreHolder.protect_std.Release();
-                            }
-                            if (SemaphoreHolder.is_std == true && dataReceive.Contains((byte)'y'))
-                            {
-                                SemaphoreHolder.send.Release();
-                            }
-                        }
-                    )
-                );
-            }
+                        )
+                    );
+                }
         }
 
         #region cmos - led
@@ -1361,9 +1534,9 @@ namespace ASICamera_demo
                 {
                     led_array.Value[i] = 0;
                 }
-
                 SendLEDValues();
-                SemaphoreHolder.protect_std.WaitOne();
+                // protect_std被注释，可能会出问题！！！
+                //SemaphoreHolder.protect_std.WaitOne();
                 SemaphoreHolder.rwLock.EnterWriteLock();
                 // 此处的is_std可以认为是乐观锁，允许相机一直读取数据，直到发现曝光改变那就回滚（continue）
                 SemaphoreHolder.is_std = true;
@@ -1523,7 +1696,100 @@ namespace ASICamera_demo
         }
 
         #endregion
+        #region pwm-exp
+        private void pwm_exp_Click(object sender, EventArgs e)
+        {
+            if (sender == clear_led_exp1)
+            {
+                led_exp_text1.Clear();
+            }
+            else if (sender == clear_led_exp2)
+            {
+                led_exp_text2.Clear();
+            }
+            else if (sender == search_led_best_exp)
+            {
+                Thread thread = new Thread(() =>
+                {
+                    this.Invoke(
+                        (MethodInvoker)
+                            delegate
+                            {
+                                groupBox16.Enabled = false;
+                                //checkBox_exposureAuto.Checked = true;
+                            }
+                    );
+                    // LED先清0
+                    for (int i = 0; i < 16; i++)
+                    {
+                        led_array.Value[i] = 0;
+                    }
+                    SendLEDValues();
+                    // 整体进入auto模式
+                    //SemaphoreHolder.protect_std.WaitOne();
+                    SemaphoreHolder.rwLock.EnterWriteLock();
+                    SemaphoreHolder.is_auto = true;
+                    SemaphoreHolder.is_changed = true;
+                    SemaphoreHolder.rwLock.ExitWriteLock();
 
+                    for (int i = 1; i < 14; i++)
+                    {
+                        // 1.测PWM最大时的EXP
+                        SemaphoreHolder.reset.WaitOne();
+                        SemaphoreHolder.reset.WaitOne();
+                        SemaphoreHolder.rwLock.EnterWriteLock();
+                        // 业务层：先pwm，再auto，再拍照
+                        led_array.Selected_index = (byte)(i + 1);
+                        led_array.Selected_value = 100;
+                        led_array.Value[led_array.Selected_index - 1] = led_array.Selected_value;
+                        SendLEDValues();
+                        led_array.Pwm_exp[i, 1] = AutoExposure(1);
+                        SemaphoreHolder.rwLock.ExitWriteLock();
+                        SemaphoreHolder.set.Release();
+                        SemaphoreHolder.refresh.Release();
+
+                        // 2.测PWM最小时的EXP
+                        SemaphoreHolder.reset.WaitOne();
+                        SemaphoreHolder.reset.WaitOne();
+                        SemaphoreHolder.rwLock.EnterWriteLock();
+                        led_array.Selected_value = 6;
+                        led_array.Value[led_array.Selected_index - 1] = led_array.Selected_value;
+                        SendLEDValues();
+                        led_array.Pwm_exp[i, 0] = AutoExposure(1);
+                        SemaphoreHolder.rwLock.ExitWriteLock();
+                        SemaphoreHolder.set.Release();
+                        SemaphoreHolder.refresh.Release();
+                    }
+
+                    SemaphoreHolder.rwLock.EnterWriteLock();
+                    SemaphoreHolder.is_auto = false;
+                    SemaphoreHolder.is_changed = false;
+                    SemaphoreHolder.rwLock.ExitWriteLock();
+                    SemaphoreHolder.log.WaitOne();
+                    try
+                    {
+                        // 直接将字符串写入文件，如果文件已存在则覆盖
+                        File.WriteAllText(
+                            m_camera.SelectedFolderPath + "/" + Camera.Datetime + "EXP_LED.txt",
+                            exp_log
+                        );
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("保存文件时出错: " + ex.Message);
+                    }
+                    this.Invoke(
+                        (MethodInvoker)
+                            delegate
+                            {
+                                groupBox16.Enabled = true;
+                            }
+                    );
+                });
+                thread.Start();
+            }
+        }
+        #endregion
         #endregion
     }
 }

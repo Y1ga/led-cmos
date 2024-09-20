@@ -61,16 +61,23 @@ namespace ASICamera_demo
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.groupBox16 = new System.Windows.Forms.GroupBox();
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel17 = new System.Windows.Forms.TableLayoutPanel();
+            this.search_led_best_exp = new System.Windows.Forms.Button();
+            this.adaptive_led_exp = new System.Windows.Forms.Button();
+            this.tableLayoutPanel16 = new System.Windows.Forms.TableLayoutPanel();
+            this.clear_led_exp1 = new System.Windows.Forms.Button();
+            this.clear_led_exp2 = new System.Windows.Forms.Button();
+            this.led_exp_text2 = new System.Windows.Forms.TextBox();
+            this.led_exp_text1 = new System.Windows.Forms.TextBox();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.label_temperature = new System.Windows.Forms.Label();
             this.button_snap = new System.Windows.Forms.Button();
-            this.label_SN = new System.Windows.Forms.Label();
-            this.label_USBHost = new System.Windows.Forms.Label();
             this.button_startVideo = new System.Windows.Forms.Button();
-            this.label_USB = new System.Windows.Forms.Label();
-            this.label_color = new System.Windows.Forms.Label();
             this.comboBox_captureMode = new System.Windows.Forms.ComboBox();
-            this.label_cooler = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label_cameraInfo = new System.Windows.Forms.Label();
             this.button_scan = new System.Windows.Forms.Button();
@@ -206,6 +213,11 @@ namespace ASICamera_demo
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.groupBox16.SuspendLayout();
+            this.tabControl2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.tableLayoutPanel17.SuspendLayout();
+            this.tableLayoutPanel16.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -629,6 +641,7 @@ namespace ASICamera_demo
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.Transparent;
+            this.tabPage1.Controls.Add(this.groupBox16);
             this.tabPage1.Controls.Add(this.groupBox5);
             this.tabPage1.Controls.Add(this.groupBox4);
             this.tabPage1.Controls.Add(this.groupBox3);
@@ -639,17 +652,146 @@ namespace ASICamera_demo
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "SettingPage1";
             // 
+            // groupBox16
+            // 
+            this.groupBox16.Controls.Add(this.tabControl2);
+            this.groupBox16.Location = new System.Drawing.Point(21, 331);
+            this.groupBox16.Name = "groupBox16";
+            this.groupBox16.Size = new System.Drawing.Size(351, 147);
+            this.groupBox16.TabIndex = 15;
+            this.groupBox16.TabStop = false;
+            this.groupBox16.Text = "groupBox16";
+            // 
+            // tabControl2
+            // 
+            this.tabControl2.Controls.Add(this.tabPage3);
+            this.tabControl2.Controls.Add(this.tabPage4);
+            this.tabControl2.Location = new System.Drawing.Point(6, 9);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(345, 132);
+            this.tabControl2.TabIndex = 0;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.tableLayoutPanel17);
+            this.tabPage3.Controls.Add(this.tableLayoutPanel16);
+            this.tabPage3.Controls.Add(this.led_exp_text2);
+            this.tabPage3.Controls.Add(this.led_exp_text1);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(337, 106);
+            this.tabPage3.TabIndex = 0;
+            this.tabPage3.Text = "tabPage3";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel17
+            // 
+            this.tableLayoutPanel17.ColumnCount = 1;
+            this.tableLayoutPanel17.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel17.Controls.Add(this.search_led_best_exp, 0, 0);
+            this.tableLayoutPanel17.Controls.Add(this.adaptive_led_exp, 0, 1);
+            this.tableLayoutPanel17.Location = new System.Drawing.Point(259, 11);
+            this.tableLayoutPanel17.Name = "tableLayoutPanel17";
+            this.tableLayoutPanel17.RowCount = 2;
+            this.tableLayoutPanel17.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel17.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel17.Size = new System.Drawing.Size(65, 49);
+            this.tableLayoutPanel17.TabIndex = 3;
+            // 
+            // search_led_best_exp
+            // 
+            this.search_led_best_exp.AutoSize = true;
+            this.search_led_best_exp.Location = new System.Drawing.Point(3, 3);
+            this.search_led_best_exp.Name = "search_led_best_exp";
+            this.search_led_best_exp.Size = new System.Drawing.Size(59, 18);
+            this.search_led_best_exp.TabIndex = 0;
+            this.search_led_best_exp.Text = "Search";
+            this.search_led_best_exp.UseVisualStyleBackColor = true;
+            this.search_led_best_exp.Click += new System.EventHandler(this.pwm_exp_Click);
+            // 
+            // adaptive_led_exp
+            // 
+            this.adaptive_led_exp.AutoSize = true;
+            this.adaptive_led_exp.Location = new System.Drawing.Point(3, 27);
+            this.adaptive_led_exp.Name = "adaptive_led_exp";
+            this.adaptive_led_exp.Size = new System.Drawing.Size(59, 19);
+            this.adaptive_led_exp.TabIndex = 1;
+            this.adaptive_led_exp.Text = "Adaptive";
+            this.adaptive_led_exp.UseVisualStyleBackColor = true;
+            this.adaptive_led_exp.Click += new System.EventHandler(this.pwm_exp_Click);
+            // 
+            // tableLayoutPanel16
+            // 
+            this.tableLayoutPanel16.ColumnCount = 4;
+            this.tableLayoutPanel16.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel16.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel16.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel16.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel16.Controls.Add(this.clear_led_exp1, 0, 0);
+            this.tableLayoutPanel16.Controls.Add(this.clear_led_exp2, 3, 0);
+            this.tableLayoutPanel16.Location = new System.Drawing.Point(72, 71);
+            this.tableLayoutPanel16.Name = "tableLayoutPanel16";
+            this.tableLayoutPanel16.RowCount = 1;
+            this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel16.Size = new System.Drawing.Size(200, 29);
+            this.tableLayoutPanel16.TabIndex = 2;
+            // 
+            // clear_led_exp1
+            // 
+            this.clear_led_exp1.Location = new System.Drawing.Point(3, 3);
+            this.clear_led_exp1.Name = "clear_led_exp1";
+            this.clear_led_exp1.Size = new System.Drawing.Size(44, 23);
+            this.clear_led_exp1.TabIndex = 0;
+            this.clear_led_exp1.Text = "Clear";
+            this.clear_led_exp1.UseVisualStyleBackColor = true;
+            this.clear_led_exp1.Click += new System.EventHandler(this.pwm_exp_Click);
+            // 
+            // clear_led_exp2
+            // 
+            this.clear_led_exp2.Location = new System.Drawing.Point(153, 3);
+            this.clear_led_exp2.Name = "clear_led_exp2";
+            this.clear_led_exp2.Size = new System.Drawing.Size(44, 23);
+            this.clear_led_exp2.TabIndex = 1;
+            this.clear_led_exp2.Text = "Clear";
+            this.clear_led_exp2.UseVisualStyleBackColor = true;
+            this.clear_led_exp2.Click += new System.EventHandler(this.pwm_exp_Click);
+            // 
+            // led_exp_text2
+            // 
+            this.led_exp_text2.Location = new System.Drawing.Point(149, 6);
+            this.led_exp_text2.Multiline = true;
+            this.led_exp_text2.Name = "led_exp_text2";
+            this.led_exp_text2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.led_exp_text2.Size = new System.Drawing.Size(104, 66);
+            this.led_exp_text2.TabIndex = 1;
+            // 
+            // led_exp_text1
+            // 
+            this.led_exp_text1.Location = new System.Drawing.Point(6, 6);
+            this.led_exp_text1.Multiline = true;
+            this.led_exp_text1.Name = "led_exp_text1";
+            this.led_exp_text1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.led_exp_text1.Size = new System.Drawing.Size(135, 66);
+            this.led_exp_text1.TabIndex = 0;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(337, 106);
+            this.tabPage4.TabIndex = 1;
+            this.tabPage4.Text = "tabPage4";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.label_temperature);
             this.groupBox5.Controls.Add(this.button_snap);
-            this.groupBox5.Controls.Add(this.label_SN);
-            this.groupBox5.Controls.Add(this.label_USBHost);
             this.groupBox5.Controls.Add(this.button_startVideo);
-            this.groupBox5.Controls.Add(this.label_USB);
-            this.groupBox5.Controls.Add(this.label_color);
             this.groupBox5.Controls.Add(this.comboBox_captureMode);
-            this.groupBox5.Controls.Add(this.label_cooler);
             this.groupBox5.Controls.Add(this.label13);
             this.groupBox5.Controls.Add(this.label_cameraInfo);
             this.groupBox5.Controls.Add(this.button_scan);
@@ -659,7 +801,7 @@ namespace ASICamera_demo
             this.groupBox5.Controls.Add(this.label12);
             this.groupBox5.Location = new System.Drawing.Point(21, 21);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(446, 113);
+            this.groupBox5.Size = new System.Drawing.Size(365, 113);
             this.groupBox5.TabIndex = 14;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Camera";
@@ -667,7 +809,7 @@ namespace ASICamera_demo
             // label_temperature
             // 
             this.label_temperature.AutoSize = true;
-            this.label_temperature.Location = new System.Drawing.Point(382, 63);
+            this.label_temperature.Location = new System.Drawing.Point(87, 86);
             this.label_temperature.Name = "label_temperature";
             this.label_temperature.Size = new System.Drawing.Size(29, 12);
             this.label_temperature.TabIndex = 25;
@@ -685,25 +827,6 @@ namespace ASICamera_demo
             this.button_snap.UseVisualStyleBackColor = true;
             this.button_snap.Click += new System.EventHandler(this.button_snap_Click);
             // 
-            // label_SN
-            // 
-            this.label_SN.Location = new System.Drawing.Point(340, 86);
-            this.label_SN.Name = "label_SN";
-            this.label_SN.Size = new System.Drawing.Size(50, 10);
-            this.label_SN.TabIndex = 24;
-            this.label_SN.Text = "SN";
-            this.label_SN.Visible = false;
-            // 
-            // label_USBHost
-            // 
-            this.label_USBHost.AutoSize = true;
-            this.label_USBHost.Location = new System.Drawing.Point(281, 86);
-            this.label_USBHost.Name = "label_USBHost";
-            this.label_USBHost.Size = new System.Drawing.Size(53, 12);
-            this.label_USBHost.TabIndex = 23;
-            this.label_USBHost.Text = "USB2Host";
-            this.label_USBHost.Visible = false;
-            // 
             // button_startVideo
             // 
             this.button_startVideo.Enabled = false;
@@ -715,26 +838,6 @@ namespace ASICamera_demo
             this.button_startVideo.UseVisualStyleBackColor = true;
             this.button_startVideo.Click += new System.EventHandler(this.button_startVideo_Click);
             // 
-            // label_USB
-            // 
-            this.label_USB.AutoSize = true;
-            this.label_USB.Location = new System.Drawing.Point(199, 86);
-            this.label_USB.Name = "label_USB";
-            this.label_USB.Size = new System.Drawing.Size(65, 12);
-            this.label_USB.TabIndex = 22;
-            this.label_USB.Text = "USB2Camera";
-            this.label_USB.Visible = false;
-            // 
-            // label_color
-            // 
-            this.label_color.AutoSize = true;
-            this.label_color.Location = new System.Drawing.Point(146, 86);
-            this.label_color.Name = "label_color";
-            this.label_color.Size = new System.Drawing.Size(47, 12);
-            this.label_color.TabIndex = 21;
-            this.label_color.Text = "UnColor";
-            this.label_color.Visible = false;
-            // 
             // comboBox_captureMode
             // 
             this.comboBox_captureMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -745,16 +848,6 @@ namespace ASICamera_demo
             this.comboBox_captureMode.Size = new System.Drawing.Size(121, 20);
             this.comboBox_captureMode.TabIndex = 20;
             this.comboBox_captureMode.SelectedIndexChanged += new System.EventHandler(this.comboBox_captureMode_SelectedIndexChanged);
-            // 
-            // label_cooler
-            // 
-            this.label_cooler.AutoSize = true;
-            this.label_cooler.Location = new System.Drawing.Point(87, 86);
-            this.label_cooler.Name = "label_cooler";
-            this.label_cooler.Size = new System.Drawing.Size(53, 12);
-            this.label_cooler.TabIndex = 20;
-            this.label_cooler.Text = "UnCooler";
-            this.label_cooler.Visible = false;
             // 
             // label13
             // 
@@ -777,7 +870,7 @@ namespace ASICamera_demo
             // 
             // button_scan
             // 
-            this.button_scan.Location = new System.Drawing.Point(359, 21);
+            this.button_scan.Location = new System.Drawing.Point(128, 81);
             this.button_scan.Name = "button_scan";
             this.button_scan.Size = new System.Drawing.Size(75, 23);
             this.button_scan.TabIndex = 18;
@@ -835,7 +928,7 @@ namespace ASICamera_demo
             this.groupBox4.Controls.Add(this.label3);
             this.groupBox4.Location = new System.Drawing.Point(23, 261);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(409, 79);
+            this.groupBox4.Size = new System.Drawing.Size(363, 73);
             this.groupBox4.TabIndex = 13;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "ImageFormat";
@@ -865,16 +958,16 @@ namespace ASICamera_demo
             this.comboBox_bin.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_bin.Enabled = false;
             this.comboBox_bin.FormattingEnabled = true;
-            this.comboBox_bin.Location = new System.Drawing.Point(269, 21);
+            this.comboBox_bin.Location = new System.Drawing.Point(212, 21);
             this.comboBox_bin.Name = "comboBox_bin";
-            this.comboBox_bin.Size = new System.Drawing.Size(121, 20);
+            this.comboBox_bin.Size = new System.Drawing.Size(68, 20);
             this.comboBox_bin.TabIndex = 3;
             this.comboBox_bin.SelectedIndexChanged += new System.EventHandler(this.comboBox_bin_SelectedIndexChanged);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(216, 24);
+            this.label6.Location = new System.Drawing.Point(183, 24);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(23, 12);
             this.label6.TabIndex = 2;
@@ -915,7 +1008,7 @@ namespace ASICamera_demo
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Location = new System.Drawing.Point(21, 140);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(446, 105);
+            this.groupBox3.Size = new System.Drawing.Size(365, 105);
             this.groupBox3.TabIndex = 12;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Control";
@@ -947,7 +1040,7 @@ namespace ASICamera_demo
             // 
             this.checkBox_exposureAuto.AutoSize = true;
             this.checkBox_exposureAuto.Enabled = false;
-            this.checkBox_exposureAuto.Location = new System.Drawing.Point(342, 46);
+            this.checkBox_exposureAuto.Location = new System.Drawing.Point(235, 49);
             this.checkBox_exposureAuto.Name = "checkBox_exposureAuto";
             this.checkBox_exposureAuto.Size = new System.Drawing.Size(48, 16);
             this.checkBox_exposureAuto.TabIndex = 7;
@@ -969,7 +1062,7 @@ namespace ASICamera_demo
             this.trackBar_exposure.Maximum = 1000000;
             this.trackBar_exposure.Minimum = 32;
             this.trackBar_exposure.Name = "trackBar_exposure";
-            this.trackBar_exposure.Size = new System.Drawing.Size(232, 45);
+            this.trackBar_exposure.Size = new System.Drawing.Size(122, 45);
             this.trackBar_exposure.TabIndex = 5;
             this.trackBar_exposure.Value = 32;
             this.trackBar_exposure.Scroll += new System.EventHandler(this.trackBar_exposure_Scroll);
@@ -977,7 +1070,7 @@ namespace ASICamera_demo
             // spinBox_exposure
             // 
             this.spinBox_exposure.Enabled = false;
-            this.spinBox_exposure.Location = new System.Drawing.Point(351, 68);
+            this.spinBox_exposure.Location = new System.Drawing.Point(244, 71);
             this.spinBox_exposure.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -2107,6 +2200,13 @@ namespace ASICamera_demo
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.groupBox16.ResumeLayout(false);
+            this.tabControl2.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            this.tableLayoutPanel17.ResumeLayout(false);
+            this.tableLayoutPanel17.PerformLayout();
+            this.tableLayoutPanel16.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox4.ResumeLayout(false);
@@ -2200,12 +2300,7 @@ namespace ASICamera_demo
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.Label label_USBHost;
-        private System.Windows.Forms.Label label_USB;
-        private System.Windows.Forms.Label label_color;
-        private System.Windows.Forms.Label label_cooler;
         private System.Windows.Forms.Label label_cameraInfo;
-        private System.Windows.Forms.Label label_SN;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox checkBox_exposureAuto;
@@ -2327,6 +2422,18 @@ namespace ASICamera_demo
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel15;
         private System.Windows.Forms.Button start_mono;
         private System.Windows.Forms.Button stop_mono;
+        private System.Windows.Forms.GroupBox groupBox16;
+        private System.Windows.Forms.TabControl tabControl2;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TextBox led_exp_text2;
+        private System.Windows.Forms.TextBox led_exp_text1;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel16;
+        private System.Windows.Forms.Button clear_led_exp1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel17;
+        private System.Windows.Forms.Button search_led_best_exp;
+        private System.Windows.Forms.Button adaptive_led_exp;
+        private System.Windows.Forms.Button clear_led_exp2;
     }
 }
 

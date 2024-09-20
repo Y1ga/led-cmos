@@ -20,10 +20,13 @@ namespace ASICamera_demo
         public static Semaphore protect_std = new Semaphore(1, 1);
         public static Semaphore protect_mono = new Semaphore(1, 1);
         public static Semaphore log = new Semaphore(0, 1);
+        public static Semaphore pwm = new Semaphore(1, 1);
+        public static Semaphore auto = new Semaphore(0, 1);
 
         public static bool is_std = false;
         public static bool is_changed = false;
         public static bool is_mono = false;
+        public static bool is_auto = false;
         public static Mutex mutex = new Mutex();
 
         // 定义读写锁
@@ -62,6 +65,13 @@ namespace ASICamera_demo
 
     public class LedArray
     {
+        // 存储led最小/最大PWM时恰好曝光所需的曝光时间
+        private int[,] m_pwm_exp = new int[16, 2];
+
+        // 第一列表示LED序号（不用+1），第二列表示曝光值
+        private int[,] current_pwm_exp = new int[2, 2];
+
+        private int best_exp;
         private byte[] index = new byte[16];
         private byte[] value = new byte[16];
         private byte selected_index = 3;
@@ -102,6 +112,21 @@ namespace ASICamera_demo
             get => stride;
             set => stride = value;
         }
+        public int[,] Pwm_exp
+        {
+            get => m_pwm_exp;
+            set => m_pwm_exp = value;
+        }
+        public int Best_exp
+        {
+            get => best_exp;
+            set => best_exp = value;
+        }
+        public int[,] Current_pwm_exp
+        {
+            get => current_pwm_exp;
+            set => current_pwm_exp = value;
+        }
     }
 
     class Camera
@@ -112,13 +137,11 @@ namespace ASICamera_demo
             Snap = 1,
         };
 
+        // 最佳曝光值
+        private int best_exp;
+
         /*线程锁*/
-        public AutoResetEvent autoResetEvent = new AutoResetEvent(false);
-        public AutoResetEvent autoResetEvent2 = new AutoResetEvent(false);
         uint is_std_state = 0;
-        public static int set = 1;
-        public static int reset = 1;
-        public static Mutex mutex = new Mutex();
 
         //保存图片名
         private static string datetime = Convert.ToString(
@@ -760,11 +783,6 @@ namespace ASICamera_demo
             get => std_hist;
             set => std_hist = value;
         }
-        public AutoResetEvent AutoResetEvent
-        {
-            get => autoResetEvent;
-            set => autoResetEvent = value;
-        }
 
         public string SelectedFolderPath
         {
@@ -790,6 +808,11 @@ namespace ASICamera_demo
         {
             get => is_std_state;
             set => is_std_state = value;
+        }
+        public int Best_exp
+        {
+            get => best_exp;
+            set => best_exp = value;
         }
 
         public void SetMessageBoxCallBack(MessageBoxCallBack callBack)
@@ -1347,6 +1370,188 @@ namespace ASICamera_demo
                                 RefreshUI(bmp);
                                 RefreshHistogram(updateHistogram(hist));
                                 RefreshCapture(bmp, 1);
+                                SemaphoreHolder.reset.Release();
+                            }
+                            else
+                            {
+                                Marshal.FreeCoTaskMem(buffer);
+                            }
+                        }
+
+                        NEXT_LOOP:
+                        ;
+                    }
+                }
+                else if (SemaphoreHolder.is_auto)
+                {
+                    {
+                        SemaphoreHolder.set.WaitOne();
+                        SemaphoreHolder.rwLock.EnterReadLock();
+                        int cameraID = m_iCameraID;
+                        int width = m_iCurWidth;
+                        int height = m_iCurHeight;
+                        int buffersize = 0;
+                        if (
+                            m_imgType == ASICameraDll2.ASI_IMG_TYPE.ASI_IMG_RAW8
+                            || m_imgType == ASICameraDll2.ASI_IMG_TYPE.ASI_IMG_Y8
+                        )
+                            buffersize = width * height;
+                        if (m_imgType == ASICameraDll2.ASI_IMG_TYPE.ASI_IMG_RAW16)
+                            buffersize = width * height * 2;
+                        if (m_imgType == ASICameraDll2.ASI_IMG_TYPE.ASI_IMG_RGB24)
+                            buffersize = width * height * 3;
+                        buffer = Marshal.AllocCoTaskMem(buffersize);
+
+                        if (m_CaptureMode == CaptureMode.Video)
+                        {
+                            int expMs;
+                            expMs = ASICameraDll2.ASIGetControlValue(
+                                cameraID,
+                                ASICameraDll2.ASI_CONTROL_TYPE.ASI_EXPOSURE
+                            );
+                            ASICameraDll2.ASISetControlValue(
+                                m_iCameraID,
+                                ASICameraDll2.ASI_CONTROL_TYPE.ASI_EXPOSURE,
+                                expMs
+                            );
+                            expMs /= 1000;
+                            ASICameraDll2.ASI_ERROR_CODE err = ASICameraDll2
+                                .ASI_ERROR_CODE
+                                .ASI_ERROR_INVALID_ID;
+                            for (int i = 0; i < 5; i++)
+                            {
+                                err = ASICameraDll2.ASIGetVideoData(
+                                    cameraID,
+                                    buffer,
+                                    buffersize,
+                                    expMs * 2 + 500
+                                );
+                            }
+                            if (err == ASICameraDll2.ASI_ERROR_CODE.ASI_SUCCESS)
+                            {
+                                if (m_imgType == ASICameraDll2.ASI_IMG_TYPE.ASI_IMG_RAW8)
+                                {
+                                    Mat buffer_mat = new Mat(
+                                        height,
+                                        width,
+                                        MatType.CV_8UC1,
+                                        buffer
+                                    );
+                                    Cv2.CalcHist(
+                                        new Mat[] { buffer_mat },
+                                        new int[] { 0 },
+                                        new Mat(),
+                                        hist,
+                                        1,
+                                        new int[] { 256 },
+                                        new Rangef[] { new Rangef(0, 256) },
+                                        uniform: true
+                                    );
+                                    Scalar mean_scalar,
+                                        std_scalar;
+                                    Cv2.MinMaxLoc(buffer_mat, out min_hist, out max_hist);
+                                    Cv2.MeanStdDev(buffer_mat, out mean_scalar, out std_scalar);
+                                    mean_hist = mean_scalar[0];
+                                    std_hist = std_scalar[0];
+                                }
+                                else if (m_imgType == ASICameraDll2.ASI_IMG_TYPE.ASI_IMG_RAW16)
+                                {
+                                    Mat buffer_mat = new Mat(
+                                        height,
+                                        width,
+                                        MatType.CV_16UC1,
+                                        buffer
+                                    );
+                                    Cv2.CalcHist(
+                                        new Mat[] { buffer_mat },
+                                        new int[] { 0 },
+                                        new Mat(),
+                                        hist,
+                                        1,
+                                        new int[] { 65536 },
+                                        new Rangef[] { new Rangef(0, 65536) },
+                                        uniform: true
+                                    );
+                                    Scalar mean_scalar,
+                                        std_scalar;
+                                    Cv2.MinMaxLoc(buffer_mat, out min_hist, out max_hist);
+                                    Cv2.MeanStdDev(buffer_mat, out mean_scalar, out std_scalar);
+                                    mean_hist = mean_scalar[0];
+                                    std_hist = std_scalar[0];
+                                }
+                                byte[] byteArray = new byte[buffersize];
+                                Marshal.Copy(buffer, byteArray, 0, buffersize);
+
+                                Marshal.FreeCoTaskMem(buffer);
+                                Bitmap bmp = new Bitmap(width, height);
+
+                                int index = 0;
+
+                                var lockBitmap = new LockBitmap(bmp);
+                                lockBitmap.LockBits();
+                                for (int i = 0; i < height; i++)
+                                {
+                                    for (int j = 0; j < width; j++)
+                                    {
+                                        if (m_bThreadStop)
+                                        {
+                                            goto NEXT_LOOP;
+                                        }
+
+                                        if (
+                                            m_imgType == ASICameraDll2.ASI_IMG_TYPE.ASI_IMG_RAW8
+                                            || m_imgType == ASICameraDll2.ASI_IMG_TYPE.ASI_IMG_Y8
+                                        )
+                                        {
+                                            lockBitmap.SetPixel(
+                                                j,
+                                                i,
+                                                Color.FromArgb(
+                                                    byteArray[index],
+                                                    byteArray[index],
+                                                    byteArray[index]
+                                                )
+                                            );
+                                        }
+                                        else if (
+                                            m_imgType == ASICameraDll2.ASI_IMG_TYPE.ASI_IMG_RAW16
+                                        )
+                                        {
+                                            lockBitmap.SetPixel(
+                                                j,
+                                                i,
+                                                Color.FromArgb(
+                                                    byteArray[index * 2 + 1],
+                                                    byteArray[index * 2 + 1],
+                                                    byteArray[index * 2 + 1]
+                                                )
+                                            );
+                                        }
+                                        else if (
+                                            m_imgType == ASICameraDll2.ASI_IMG_TYPE.ASI_IMG_RGB24
+                                        )
+                                        {
+                                            lockBitmap.SetPixel(
+                                                j,
+                                                i,
+                                                Color.FromArgb(
+                                                    byteArray[index * 3 + 0],
+                                                    byteArray[index * 3 + 1],
+                                                    byteArray[index * 3 + 2]
+                                                )
+                                            );
+                                        }
+
+                                        index++;
+                                    }
+                                }
+                                lockBitmap.UnlockBits();
+                                SemaphoreHolder.rwLock.ExitReadLock();
+                                // 委托主线程事件,虽然主线程还在is_reset.waitOne()但由于是异步委托,因此子线程会继续执行到is_reset.Release()
+                                // 这样主线程就会先执行is_reset.waitOne()后的语句再完成更新UI的委托
+                                RefreshUI(bmp);
+                                RefreshHistogram(updateHistogram(hist));
+                                RefreshCapture(bmp, 2);
                                 SemaphoreHolder.reset.Release();
                             }
                             else
