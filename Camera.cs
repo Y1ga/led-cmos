@@ -23,15 +23,22 @@ namespace ASICamera_demo
         public static Semaphore pwm = new Semaphore(1, 1);
         public static Semaphore auto = new Semaphore(0, 1);
 
+        // 定义读写锁
+        public static ReaderWriterLockSlim rwLock = new ReaderWriterLockSlim();
+        public static ReaderWriterLockSlim send_lock = new ReaderWriterLockSlim();
+
+        // 标志位
         public static bool is_std = false;
         public static bool is_changed = false;
         public static bool is_mono = false;
         public static bool is_auto = false;
-        public static Mutex mutex = new Mutex();
+        public static bool is_search = false;
+        public static bool is_mono_exp = false;
 
-        // 定义读写锁
-        public static ReaderWriterLockSlim rwLock = new ReaderWriterLockSlim();
-        public static ReaderWriterLockSlim send_lock = new ReaderWriterLockSlim();
+        // 最佳曝光计数
+        public static int best_exp_count = 0;
+        public static int tolerance_count = 0;
+        public static int best_exp_count_tolerance = 3;
     }
 
     public class Monochromator
@@ -40,6 +47,11 @@ namespace ASICamera_demo
         private int stride = 10;
         private int selected_spectrum = 400;
         private int interval_time = 10;
+
+        // exp / min / max / mean / std
+        private int[,] m_spec_exp = new int[31, 5];
+        private int current_max_index;
+        private int current_max_exp;
 
         public int Start_spectrum
         {
@@ -61,20 +73,37 @@ namespace ASICamera_demo
             get => interval_time;
             set => interval_time = value;
         }
+        public int[,] Spec_exp
+        {
+            get => m_spec_exp;
+            set => m_spec_exp = value;
+        }
+        public int Current_max_index
+        {
+            get => current_max_index;
+            set => current_max_index = value;
+        }
+        public int Current_max_exp
+        {
+            get => current_max_exp;
+            set => current_max_exp = value;
+        }
     }
 
     public class LedArray
     {
-        // 存储led最小/最大PWM时恰好曝光所需的曝光时间
-        private int[,] m_pwm_exp = new int[16, 2];
+        // 存储led最小/最大PWM时恰好曝光所需的曝光时间;min, max, mean, std灰度值
+        private int[,] m_pwm_exp = new int[16, 5];
 
-        // 第一列表示LED序号（不用+1），第二列表示曝光值
-        private int[,] current_pwm_exp = new int[2, 2];
+        private int current_min_led;
+        private int current_max_led;
+        private int current_min_exp;
+        private int current_max_exp;
 
         private int best_exp;
         private byte[] index = new byte[16];
         private byte[] value = new byte[16];
-        private byte selected_index = 3;
+        private byte selected_index = 2;
         private byte selected_value = 0;
         private byte stride = 1;
 
@@ -122,10 +151,27 @@ namespace ASICamera_demo
             get => best_exp;
             set => best_exp = value;
         }
-        public int[,] Current_pwm_exp
+
+        public int Current_max_led
         {
-            get => current_pwm_exp;
-            set => current_pwm_exp = value;
+            get => current_max_led;
+            set => current_max_led = value;
+        }
+
+        public int Current_max_exp
+        {
+            get => current_max_exp;
+            set => current_max_exp = value;
+        }
+        public int Current_min_led
+        {
+            get => current_min_led;
+            set => current_min_led = value;
+        }
+        public int Current_min_exp
+        {
+            get => current_min_exp;
+            set => current_min_exp = value;
         }
     }
 
@@ -1551,7 +1597,15 @@ namespace ASICamera_demo
                                 // 这样主线程就会先执行is_reset.waitOne()后的语句再完成更新UI的委托
                                 RefreshUI(bmp);
                                 RefreshHistogram(updateHistogram(hist));
-                                RefreshCapture(bmp, 2);
+                                if (SemaphoreHolder.is_mono_exp)
+                                {
+                                    RefreshCapture(bmp, 3);
+                                }
+                                else
+                                {
+                                    RefreshCapture(bmp, 2);
+                                }
+
                                 SemaphoreHolder.reset.Release();
                             }
                             else

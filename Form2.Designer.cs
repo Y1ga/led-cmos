@@ -73,6 +73,13 @@ namespace ASICamera_demo
             this.led_exp_text2 = new System.Windows.Forms.TextBox();
             this.led_exp_text1 = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel18 = new System.Windows.Forms.TableLayoutPanel();
+            this.mono_search_button = new System.Windows.Forms.Button();
+            this.tableLayoutPanel19 = new System.Windows.Forms.TableLayoutPanel();
+            this.mono_search_clear1 = new System.Windows.Forms.Button();
+            this.mono_search_clear2 = new System.Windows.Forms.Button();
+            this.mono_search_text2 = new System.Windows.Forms.TextBox();
+            this.mono_search_text1 = new System.Windows.Forms.TextBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.label_temperature = new System.Windows.Forms.Label();
             this.button_snap = new System.Windows.Forms.Button();
@@ -113,7 +120,7 @@ namespace ASICamera_demo
             this.selected_index_box = new System.Windows.Forms.ComboBox();
             this.stride_box = new System.Windows.Forms.ComboBox();
             this.single_auto_button = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.full_auto_button = new System.Windows.Forms.Button();
             this.label44 = new System.Windows.Forms.Label();
             this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
             this.clear_button = new System.Windows.Forms.Button();
@@ -218,6 +225,9 @@ namespace ASICamera_demo
             this.tabPage3.SuspendLayout();
             this.tableLayoutPanel17.SuspendLayout();
             this.tableLayoutPanel16.SuspendLayout();
+            this.tabPage4.SuspendLayout();
+            this.tableLayoutPanel18.SuspendLayout();
+            this.tableLayoutPanel19.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -760,6 +770,7 @@ namespace ASICamera_demo
             // 
             // led_exp_text2
             // 
+            this.led_exp_text2.AcceptsReturn = true;
             this.led_exp_text2.Location = new System.Drawing.Point(149, 6);
             this.led_exp_text2.Multiline = true;
             this.led_exp_text2.Name = "led_exp_text2";
@@ -769,15 +780,20 @@ namespace ASICamera_demo
             // 
             // led_exp_text1
             // 
+            this.led_exp_text1.AcceptsReturn = true;
             this.led_exp_text1.Location = new System.Drawing.Point(6, 6);
             this.led_exp_text1.Multiline = true;
             this.led_exp_text1.Name = "led_exp_text1";
-            this.led_exp_text1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.led_exp_text1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.led_exp_text1.Size = new System.Drawing.Size(135, 66);
             this.led_exp_text1.TabIndex = 0;
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.tableLayoutPanel18);
+            this.tabPage4.Controls.Add(this.tableLayoutPanel19);
+            this.tabPage4.Controls.Add(this.mono_search_text2);
+            this.tabPage4.Controls.Add(this.mono_search_text1);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
@@ -785,6 +801,86 @@ namespace ASICamera_demo
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "tabPage4";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel18
+            // 
+            this.tableLayoutPanel18.ColumnCount = 1;
+            this.tableLayoutPanel18.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel18.Controls.Add(this.mono_search_button, 0, 0);
+            this.tableLayoutPanel18.Location = new System.Drawing.Point(262, 11);
+            this.tableLayoutPanel18.Name = "tableLayoutPanel18";
+            this.tableLayoutPanel18.RowCount = 2;
+            this.tableLayoutPanel18.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel18.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel18.Size = new System.Drawing.Size(65, 49);
+            this.tableLayoutPanel18.TabIndex = 7;
+            // 
+            // mono_search_button
+            // 
+            this.mono_search_button.AutoSize = true;
+            this.mono_search_button.Location = new System.Drawing.Point(3, 3);
+            this.mono_search_button.Name = "mono_search_button";
+            this.mono_search_button.Size = new System.Drawing.Size(59, 18);
+            this.mono_search_button.TabIndex = 0;
+            this.mono_search_button.Text = "Search";
+            this.mono_search_button.UseVisualStyleBackColor = true;
+            this.mono_search_button.Click += new System.EventHandler(this.mono_search_Click);
+            // 
+            // tableLayoutPanel19
+            // 
+            this.tableLayoutPanel19.ColumnCount = 4;
+            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel19.Controls.Add(this.mono_search_clear1, 0, 0);
+            this.tableLayoutPanel19.Controls.Add(this.mono_search_clear2, 3, 0);
+            this.tableLayoutPanel19.Location = new System.Drawing.Point(75, 71);
+            this.tableLayoutPanel19.Name = "tableLayoutPanel19";
+            this.tableLayoutPanel19.RowCount = 1;
+            this.tableLayoutPanel19.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel19.Size = new System.Drawing.Size(200, 29);
+            this.tableLayoutPanel19.TabIndex = 6;
+            // 
+            // mono_search_clear1
+            // 
+            this.mono_search_clear1.Location = new System.Drawing.Point(3, 3);
+            this.mono_search_clear1.Name = "mono_search_clear1";
+            this.mono_search_clear1.Size = new System.Drawing.Size(44, 23);
+            this.mono_search_clear1.TabIndex = 0;
+            this.mono_search_clear1.Text = "Clear";
+            this.mono_search_clear1.UseVisualStyleBackColor = true;
+            this.mono_search_clear1.Click += new System.EventHandler(this.mono_search_Click);
+            // 
+            // mono_search_clear2
+            // 
+            this.mono_search_clear2.Location = new System.Drawing.Point(153, 3);
+            this.mono_search_clear2.Name = "mono_search_clear2";
+            this.mono_search_clear2.Size = new System.Drawing.Size(44, 23);
+            this.mono_search_clear2.TabIndex = 1;
+            this.mono_search_clear2.Text = "Clear";
+            this.mono_search_clear2.UseVisualStyleBackColor = true;
+            this.mono_search_clear2.Click += new System.EventHandler(this.mono_search_Click);
+            // 
+            // mono_search_text2
+            // 
+            this.mono_search_text2.AcceptsReturn = true;
+            this.mono_search_text2.Location = new System.Drawing.Point(152, 6);
+            this.mono_search_text2.Multiline = true;
+            this.mono_search_text2.Name = "mono_search_text2";
+            this.mono_search_text2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.mono_search_text2.Size = new System.Drawing.Size(104, 66);
+            this.mono_search_text2.TabIndex = 5;
+            // 
+            // mono_search_text1
+            // 
+            this.mono_search_text1.AcceptsReturn = true;
+            this.mono_search_text1.Location = new System.Drawing.Point(9, 6);
+            this.mono_search_text1.Multiline = true;
+            this.mono_search_text1.Name = "mono_search_text1";
+            this.mono_search_text1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.mono_search_text1.Size = new System.Drawing.Size(135, 66);
+            this.mono_search_text1.TabIndex = 4;
             // 
             // groupBox5
             // 
@@ -1166,7 +1262,7 @@ namespace ASICamera_demo
             this.tableLayoutPanel11.Controls.Add(this.selected_index_box, 0, 1);
             this.tableLayoutPanel11.Controls.Add(this.stride_box, 2, 1);
             this.tableLayoutPanel11.Controls.Add(this.single_auto_button, 3, 1);
-            this.tableLayoutPanel11.Controls.Add(this.button2, 4, 1);
+            this.tableLayoutPanel11.Controls.Add(this.full_auto_button, 4, 1);
             this.tableLayoutPanel11.Controls.Add(this.label44, 1, 1);
             this.tableLayoutPanel11.Location = new System.Drawing.Point(10, 136);
             this.tableLayoutPanel11.Name = "tableLayoutPanel11";
@@ -1207,6 +1303,7 @@ namespace ASICamera_demo
             // 
             this.selected_index_box.FormattingEnabled = true;
             this.selected_index_box.Items.AddRange(new object[] {
+            "2",
             "3",
             "4",
             "5",
@@ -1218,13 +1315,12 @@ namespace ASICamera_demo
             "11",
             "12",
             "13",
-            "14",
-            "15"});
+            "14"});
             this.selected_index_box.Location = new System.Drawing.Point(3, 13);
             this.selected_index_box.Name = "selected_index_box";
             this.selected_index_box.Size = new System.Drawing.Size(33, 20);
             this.selected_index_box.TabIndex = 3;
-            this.selected_index_box.Text = "3";
+            this.selected_index_box.Text = "2";
             this.selected_index_box.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // stride_box
@@ -1254,14 +1350,15 @@ namespace ASICamera_demo
             this.single_auto_button.UseVisualStyleBackColor = true;
             this.single_auto_button.Click += new System.EventHandler(this.single_auto_button_Click);
             // 
-            // button2
+            // full_auto_button
             // 
-            this.button2.Location = new System.Drawing.Point(159, 13);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 7;
-            this.button2.Text = "Full Auto";
-            this.button2.UseVisualStyleBackColor = true;
+            this.full_auto_button.Location = new System.Drawing.Point(159, 13);
+            this.full_auto_button.Name = "full_auto_button";
+            this.full_auto_button.Size = new System.Drawing.Size(75, 23);
+            this.full_auto_button.TabIndex = 7;
+            this.full_auto_button.Text = "Full Auto";
+            this.full_auto_button.UseVisualStyleBackColor = true;
+            this.full_auto_button.Click += new System.EventHandler(this.single_auto_button_Click);
             // 
             // label44
             // 
@@ -2207,6 +2304,11 @@ namespace ASICamera_demo
             this.tableLayoutPanel17.ResumeLayout(false);
             this.tableLayoutPanel17.PerformLayout();
             this.tableLayoutPanel16.ResumeLayout(false);
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
+            this.tableLayoutPanel18.ResumeLayout(false);
+            this.tableLayoutPanel18.PerformLayout();
+            this.tableLayoutPanel19.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox4.ResumeLayout(false);
@@ -2398,7 +2500,7 @@ namespace ASICamera_demo
         private System.Windows.Forms.ComboBox selected_index_box;
         private System.Windows.Forms.ComboBox stride_box;
         private System.Windows.Forms.Button single_auto_button;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button full_auto_button;
         private System.Windows.Forms.Label label44;
         private System.Windows.Forms.GroupBox groupBox13;
         private System.Windows.Forms.Label save_path_label;
@@ -2434,6 +2536,13 @@ namespace ASICamera_demo
         private System.Windows.Forms.Button search_led_best_exp;
         private System.Windows.Forms.Button adaptive_led_exp;
         private System.Windows.Forms.Button clear_led_exp2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel18;
+        private System.Windows.Forms.Button mono_search_button;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel19;
+        private System.Windows.Forms.Button mono_search_clear1;
+        private System.Windows.Forms.Button mono_search_clear2;
+        private System.Windows.Forms.TextBox mono_search_text2;
+        private System.Windows.Forms.TextBox mono_search_text1;
     }
 }
 
