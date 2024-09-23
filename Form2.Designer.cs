@@ -49,6 +49,7 @@ namespace ASICamera_demo
             this.mono_interval = new System.Windows.Forms.NumericUpDown();
             this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.exp_label = new System.Windows.Forms.Label();
             this.capture_config_label = new System.Windows.Forms.Label();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel12 = new System.Windows.Forms.TableLayoutPanel();
@@ -528,6 +529,7 @@ namespace ASICamera_demo
             // 
             // groupBox14
             // 
+            this.groupBox14.Controls.Add(this.exp_label);
             this.groupBox14.Controls.Add(this.capture_config_label);
             this.groupBox14.Location = new System.Drawing.Point(147, 123);
             this.groupBox14.Name = "groupBox14";
@@ -535,6 +537,15 @@ namespace ASICamera_demo
             this.groupBox14.TabIndex = 4;
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "groupBox14";
+            // 
+            // exp_label
+            // 
+            this.exp_label.AutoSize = true;
+            this.exp_label.Location = new System.Drawing.Point(6, 54);
+            this.exp_label.Name = "exp_label";
+            this.exp_label.Size = new System.Drawing.Size(47, 12);
+            this.exp_label.TabIndex = 1;
+            this.exp_label.Text = "label46";
             // 
             // capture_config_label
             // 
@@ -544,6 +555,7 @@ namespace ASICamera_demo
             this.capture_config_label.Size = new System.Drawing.Size(47, 12);
             this.capture_config_label.TabIndex = 0;
             this.capture_config_label.Text = "label45";
+            this.capture_config_label.TextChanged += new System.EventHandler(this.exp_label_Changed);
             // 
             // groupBox13
             // 
@@ -590,7 +602,6 @@ namespace ASICamera_demo
             this.save_img_name_label.Size = new System.Drawing.Size(47, 12);
             this.save_img_name_label.TabIndex = 3;
             this.save_img_name_label.Text = "label46";
-            this.save_img_name_label.TextChanged += new System.EventHandler(this.save_img_name_label_Changed);
             // 
             // save_path_label
             // 
@@ -2544,6 +2555,7 @@ namespace ASICamera_demo
         private System.Windows.Forms.Button mono_search_clear2;
         private System.Windows.Forms.TextBox mono_search_text2;
         private System.Windows.Forms.TextBox mono_search_text1;
+        private System.Windows.Forms.Label exp_label;
     }
 }
 

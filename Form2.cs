@@ -2323,26 +2323,32 @@ namespace ASICamera_demo
 
         #endregion
 
-        private void save_img_name_label_Changed(object sender, EventArgs e)
+        private void exp_label_Changed(object sender, EventArgs e)
         {
             this.Invoke(
                 (MethodInvoker)
                     delegate
                     {
-                        double expMs = Convert.ToDouble(save_img_name_label.Text);
+                        int expUs;
+                        m_camera.getControlValue(
+                            ASICameraDll2.ASI_CONTROL_TYPE.ASI_EXPOSURE,
+                            out expUs
+                        );
+                        double expMs = expUs;
+                        exp_label.Text = Convert.ToString(expUs) + "\n";
                         if (expMs >= 1000000)
                         {
                             expMs = expMs / 1000000;
-                            save_img_name_label.Text += Convert.ToString(expMs) + "s";
+                            exp_label.Text += Convert.ToString(expMs) + "s";
                         }
                         else if (expMs < 1000000 && expMs >= 1000)
                         {
                             expMs = expMs / 1000;
-                            save_img_name_label.Text += Convert.ToString(expMs) + "ms";
+                            exp_label.Text += Convert.ToString(expMs) + "ms";
                         }
                         else
                         {
-                            save_img_name_label.Text += Convert.ToString(expMs) + "s";
+                            exp_label.Text += Convert.ToString(expMs) + "s";
                         }
                     }
             );
