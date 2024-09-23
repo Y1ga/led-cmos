@@ -2335,20 +2335,19 @@ namespace ASICamera_demo
                             out expUs
                         );
                         double expMs = expUs;
-                        exp_label.Text = Convert.ToString(expUs) + "\n";
                         if (expMs >= 1000000)
                         {
                             expMs = expMs / 1000000;
-                            exp_label.Text += Convert.ToString(expMs) + "s";
+                            exp_label.Text = Convert.ToString(expMs) + "s";
                         }
                         else if (expMs < 1000000 && expMs >= 1000)
                         {
                             expMs = expMs / 1000;
-                            exp_label.Text += Convert.ToString(expMs) + "ms";
+                            exp_label.Text = Convert.ToString(expMs) + "ms";
                         }
                         else
                         {
-                            exp_label.Text += Convert.ToString(expMs) + "s";
+                            exp_label.Text = Convert.ToString(expMs) + "s";
                         }
                     }
             );

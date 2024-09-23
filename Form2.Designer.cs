@@ -533,7 +533,7 @@ namespace ASICamera_demo
             this.groupBox14.Controls.Add(this.capture_config_label);
             this.groupBox14.Location = new System.Drawing.Point(147, 123);
             this.groupBox14.Name = "groupBox14";
-            this.groupBox14.Size = new System.Drawing.Size(135, 67);
+            this.groupBox14.Size = new System.Drawing.Size(138, 76);
             this.groupBox14.TabIndex = 4;
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "groupBox14";
@@ -541,7 +541,7 @@ namespace ASICamera_demo
             // exp_label
             // 
             this.exp_label.AutoSize = true;
-            this.exp_label.Location = new System.Drawing.Point(6, 54);
+            this.exp_label.Location = new System.Drawing.Point(6, 67);
             this.exp_label.Name = "exp_label";
             this.exp_label.Size = new System.Drawing.Size(47, 12);
             this.exp_label.TabIndex = 1;
