@@ -1877,6 +1877,7 @@ namespace ASICamera_demo
                             m_camera.SelectedFolderPath + "/" + Camera.Datetime + ".txt",
                             log
                         );
+                        log = "";
                     }
                     catch (Exception ex)
                     {
@@ -1952,22 +1953,22 @@ namespace ASICamera_demo
                         SemaphoreHolder.is_std = false;
                         SemaphoreHolder.rwLock.ExitWriteLock();
 
-                        try
-                        {
-                            // 直接将字符串写入文件，如果文件已存在则覆盖
-                            File.WriteAllText(
-                                m_camera.SelectedFolderPath + "/" + Camera.Datetime + ".txt",
-                                log
-                            );
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine("保存文件时出错: " + ex.Message);
-                        }
                         led_array.Selected_index++;
                     }
-
-                    single_auto_button.Invoke(
+                    try
+                    {
+                        // 直接将字符串写入文件，如果文件已存在则覆盖
+                        File.WriteAllText(
+                            m_camera.SelectedFolderPath + "/" + Camera.Datetime + "LED_std.txt",
+                            log
+                        );
+                        log = "";
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("保存文件时出错: " + ex.Message);
+                    }
+                    this.Invoke(
                         (MethodInvoker)
                             delegate
                             {
@@ -2070,6 +2071,7 @@ namespace ASICamera_demo
                             m_camera.SelectedFolderPath + "/" + Camera.Datetime + "Mono.txt",
                             log
                         );
+                        log = "";
                     }
                     catch (Exception ex)
                     {
@@ -2129,7 +2131,7 @@ namespace ASICamera_demo
                     SemaphoreHolder.is_search = true;
                     SemaphoreHolder.rwLock.ExitWriteLock();
 
-                    for (int i = 13; i < 14; i++)
+                    for (int i = 1; i < 14; i++)
                     {
                         // 1.测PWM最大时的EXP
                         SemaphoreHolder.reset.WaitOne();
@@ -2169,7 +2171,7 @@ namespace ASICamera_demo
                     {
                         // 直接将字符串写入文件，如果文件已存在则覆盖
                         File.WriteAllText(
-                            m_camera.SelectedFolderPath + "/" + Camera.Datetime + "EXP_LED.txt",
+                            m_camera.SelectedFolderPath + "/" + Camera.Datetime + "LED_exp.txt",
                             exp_log
                         );
                     }
@@ -2216,6 +2218,7 @@ namespace ASICamera_demo
                             m_camera.SelectedFolderPath + "/" + Camera.Datetime + "EXP_LED.txt",
                             exp_log
                         );
+                        exp_log = "";
                     }
                     catch (Exception ex)
                     {
@@ -2226,6 +2229,82 @@ namespace ASICamera_demo
                             delegate
                             {
                                 groupBox16.Enabled = true;
+                            }
+                    );
+                });
+                thread.Start();
+            }
+            else if (sender == adaptive_led_exp)
+            {
+                Thread thread = new Thread(() =>
+                {
+                    this.Invoke(
+                        (MethodInvoker)
+                            delegate
+                            {
+                                adaptive_led_exp.Enabled = false;
+                            }
+                    );
+                    for (int j = led_array.Selected_index - 1; j < 14; j++)
+                    {
+                        int count = (int)Math.Floor((100.0 / led_array.Stride));
+                        int expMs;
+                        m_camera.getControlValue(
+                            ASICameraDll2.ASI_CONTROL_TYPE.ASI_EXPOSURE,
+                            out expMs
+                        );
+                        for (int i = 0; i < 16; i++)
+                        {
+                            led_array.Value[i] = 0;
+                        }
+                        SendLEDValues();
+                        // protect_std被注释，可能会出问题！！！
+                        //SemaphoreHolder.protect_std.WaitOne();
+                        SemaphoreHolder.rwLock.EnterWriteLock();
+                        // 此处的is_std可以认为是乐观锁，允许相机一直读取数据，直到发现曝光改变那就回滚（continue）
+                        SemaphoreHolder.is_std = true;
+                        SemaphoreHolder.rwLock.ExitWriteLock();
+
+                        for (int i = 0; i <= count; i++)
+                        {
+                            SemaphoreHolder.reset.WaitOne();
+                            SemaphoreHolder.reset.WaitOne();
+                            led_array.Selected_value = (byte)(led_array.Stride * i);
+                            led_array.Value[led_array.Selected_index - 1] =
+                                led_array.Selected_value;
+                            SendLEDValues();
+                            SemaphoreHolder.send.WaitOne();
+                            SemaphoreHolder.set.Release();
+                            SemaphoreHolder.refresh.Release();
+                        }
+
+                        led_array.Selected_index++;
+                    }
+                    SemaphoreHolder.log.WaitOne();
+                    SemaphoreHolder.rwLock.EnterWriteLock();
+                    SemaphoreHolder.is_std = false;
+                    SemaphoreHolder.rwLock.ExitWriteLock();
+                    try
+                    {
+                        // 直接将字符串写入文件，如果文件已存在则覆盖
+                        File.WriteAllText(
+                            m_camera.SelectedFolderPath + "/" + Camera.Datetime + ".txt",
+                            log
+                        );
+                        log = "";
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("保存文件时出错: " + ex.Message);
+                    }
+                    this.Invoke(
+                        (MethodInvoker)
+                            delegate
+                            {
+                                single_auto_button.Enabled = true;
+                                save_img_button.Enabled = true;
+                                send_button.Enabled = true;
+                                full_auto_button.Enabled = true;
                             }
                     );
                 });
@@ -2298,9 +2377,10 @@ namespace ASICamera_demo
                     {
                         // 直接将字符串写入文件，如果文件已存在则覆盖
                         File.WriteAllText(
-                            m_camera.SelectedFolderPath + "/" + Camera.Datetime + "EXP_Mono.txt",
+                            m_camera.SelectedFolderPath + "/" + Camera.Datetime + "Mono_exp.txt",
                             exp_log
                         );
+                        exp_log = "";
                     }
                     catch (Exception ex)
                     {
@@ -2347,7 +2427,7 @@ namespace ASICamera_demo
                         }
                         else
                         {
-                            exp_label.Text = Convert.ToString(expMs) + "s";
+                            exp_label.Text = Convert.ToString(expMs) + "us";
                         }
                     }
             );
