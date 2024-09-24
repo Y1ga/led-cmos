@@ -35,11 +35,15 @@ namespace ASICamera_demo
         public static bool is_search = false;
         public static bool is_mono_exp = false;
         public static bool is_break = false;
+        public static bool is_manual = false;
 
         // 最佳曝光计数
         public static int best_exp_count = 0;
         public static int tolerance_count = 0;
         public static int best_exp_count_tolerance = 3;
+
+        // 手动捕获计数
+        public static int manual_count = 0;
     }
 
     public class Monochromator
@@ -1710,7 +1714,6 @@ namespace ASICamera_demo
                             {
                                 save_mat = new Mat(height, width, MatType.CV_16UC1, buffer);
                             }
-                            Cv2.ImWrite("2.png", save_mat);
                             //Marshal.FreeCoTaskMem(buffer);
                             Bitmap bmp = new Bitmap(width, height);
 
@@ -1781,6 +1784,14 @@ namespace ASICamera_demo
                                 SemaphoreHolder.is_changed = false;
                                 SemaphoreHolder.rwLock.ExitReadLock();
                                 continue;
+                            }
+                            else if (SemaphoreHolder.is_manual)
+                            {
+                                SemaphoreHolder.is_manual = false;
+                                RefreshUI(bmp);
+                                RefreshHistogram(updateHistogram(hist));
+                                RefreshCapture(bmp, 4);
+                                SemaphoreHolder.rwLock.ExitReadLock();
                             }
                             else
                             {

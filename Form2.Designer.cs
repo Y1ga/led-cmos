@@ -81,6 +81,22 @@ namespace ASICamera_demo
             this.mono_search_clear2 = new System.Windows.Forms.Button();
             this.mono_search_text2 = new System.Windows.Forms.TextBox();
             this.mono_search_text1 = new System.Windows.Forms.TextBox();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.groupBox17 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel21 = new System.Windows.Forms.TableLayoutPanel();
+            this.manual_clear_button = new System.Windows.Forms.Button();
+            this.manual_file_name = new System.Windows.Forms.Label();
+            this.label51 = new System.Windows.Forms.Label();
+            this.manual_save_button = new System.Windows.Forms.Button();
+            this.tableLayoutPanel20 = new System.Windows.Forms.TableLayoutPanel();
+            this.label46 = new System.Windows.Forms.Label();
+            this.label47 = new System.Windows.Forms.Label();
+            this.label48 = new System.Windows.Forms.Label();
+            this.label49 = new System.Windows.Forms.Label();
+            this.manual_stride = new System.Windows.Forms.ComboBox();
+            this.manual_start_index = new System.Windows.Forms.NumericUpDown();
+            this.manual_current_index = new System.Windows.Forms.NumericUpDown();
+            this.manual_title = new System.Windows.Forms.TextBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.label_temperature = new System.Windows.Forms.Label();
             this.button_snap = new System.Windows.Forms.Button();
@@ -229,6 +245,12 @@ namespace ASICamera_demo
             this.tabPage4.SuspendLayout();
             this.tableLayoutPanel18.SuspendLayout();
             this.tableLayoutPanel19.SuspendLayout();
+            this.tabPage5.SuspendLayout();
+            this.groupBox17.SuspendLayout();
+            this.tableLayoutPanel21.SuspendLayout();
+            this.tableLayoutPanel20.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.manual_start_index)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.manual_current_index)).BeginInit();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -688,6 +710,7 @@ namespace ASICamera_demo
             // 
             this.tabControl2.Controls.Add(this.tabPage3);
             this.tabControl2.Controls.Add(this.tabPage4);
+            this.tabControl2.Controls.Add(this.tabPage5);
             this.tabControl2.Location = new System.Drawing.Point(6, 9);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
@@ -893,6 +916,214 @@ namespace ASICamera_demo
             this.mono_search_text1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.mono_search_text1.Size = new System.Drawing.Size(135, 66);
             this.mono_search_text1.TabIndex = 4;
+            // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.groupBox17);
+            this.tabPage5.Controls.Add(this.tableLayoutPanel20);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(337, 106);
+            this.tabPage5.TabIndex = 2;
+            this.tabPage5.Text = "tabPage5";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // groupBox17
+            // 
+            this.groupBox17.Controls.Add(this.tableLayoutPanel21);
+            this.groupBox17.Location = new System.Drawing.Point(147, 16);
+            this.groupBox17.Name = "groupBox17";
+            this.groupBox17.Size = new System.Drawing.Size(151, 67);
+            this.groupBox17.TabIndex = 4;
+            this.groupBox17.TabStop = false;
+            this.groupBox17.Text = "groupBox17";
+            // 
+            // tableLayoutPanel21
+            // 
+            this.tableLayoutPanel21.ColumnCount = 2;
+            this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel21.Controls.Add(this.manual_clear_button, 1, 0);
+            this.tableLayoutPanel21.Controls.Add(this.manual_file_name, 0, 1);
+            this.tableLayoutPanel21.Controls.Add(this.label51, 0, 0);
+            this.tableLayoutPanel21.Controls.Add(this.manual_save_button, 1, 1);
+            this.tableLayoutPanel21.Location = new System.Drawing.Point(15, 14);
+            this.tableLayoutPanel21.Name = "tableLayoutPanel21";
+            this.tableLayoutPanel21.RowCount = 2;
+            this.tableLayoutPanel21.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel21.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel21.Size = new System.Drawing.Size(130, 47);
+            this.tableLayoutPanel21.TabIndex = 3;
+            // 
+            // manual_clear_button
+            // 
+            this.manual_clear_button.Location = new System.Drawing.Point(68, 3);
+            this.manual_clear_button.Name = "manual_clear_button";
+            this.manual_clear_button.Size = new System.Drawing.Size(59, 17);
+            this.manual_clear_button.TabIndex = 2;
+            this.manual_clear_button.Text = "Clear";
+            this.manual_clear_button.UseVisualStyleBackColor = true;
+            this.manual_clear_button.Click += new System.EventHandler(this.manual_Click);
+            // 
+            // manual_file_name
+            // 
+            this.manual_file_name.AutoSize = true;
+            this.manual_file_name.Location = new System.Drawing.Point(3, 23);
+            this.manual_file_name.Name = "manual_file_name";
+            this.manual_file_name.Size = new System.Drawing.Size(47, 12);
+            this.manual_file_name.TabIndex = 3;
+            this.manual_file_name.Text = "label46";
+            // 
+            // label51
+            // 
+            this.label51.AutoSize = true;
+            this.label51.Location = new System.Drawing.Point(3, 0);
+            this.label51.Name = "label51";
+            this.label51.Size = new System.Drawing.Size(59, 12);
+            this.label51.TabIndex = 1;
+            this.label51.Text = "File Name";
+            // 
+            // manual_save_button
+            // 
+            this.manual_save_button.Location = new System.Drawing.Point(68, 26);
+            this.manual_save_button.Name = "manual_save_button";
+            this.manual_save_button.Size = new System.Drawing.Size(59, 18);
+            this.manual_save_button.TabIndex = 4;
+            this.manual_save_button.Text = "Save";
+            this.manual_save_button.UseVisualStyleBackColor = true;
+            this.manual_save_button.Click += new System.EventHandler(this.manual_Click);
+            // 
+            // tableLayoutPanel20
+            // 
+            this.tableLayoutPanel20.ColumnCount = 2;
+            this.tableLayoutPanel20.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel20.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel20.Controls.Add(this.label46, 0, 0);
+            this.tableLayoutPanel20.Controls.Add(this.label47, 0, 1);
+            this.tableLayoutPanel20.Controls.Add(this.label48, 0, 2);
+            this.tableLayoutPanel20.Controls.Add(this.label49, 0, 3);
+            this.tableLayoutPanel20.Controls.Add(this.manual_stride, 1, 3);
+            this.tableLayoutPanel20.Controls.Add(this.manual_start_index, 1, 1);
+            this.tableLayoutPanel20.Controls.Add(this.manual_current_index, 1, 2);
+            this.tableLayoutPanel20.Controls.Add(this.manual_title, 1, 0);
+            this.tableLayoutPanel20.Location = new System.Drawing.Point(3, 0);
+            this.tableLayoutPanel20.Name = "tableLayoutPanel20";
+            this.tableLayoutPanel20.RowCount = 4;
+            this.tableLayoutPanel20.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel20.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel20.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel20.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel20.Size = new System.Drawing.Size(138, 105);
+            this.tableLayoutPanel20.TabIndex = 0;
+            // 
+            // label46
+            // 
+            this.label46.AutoSize = true;
+            this.label46.Location = new System.Drawing.Point(3, 0);
+            this.label46.Name = "label46";
+            this.label46.Size = new System.Drawing.Size(35, 12);
+            this.label46.TabIndex = 0;
+            this.label46.Text = "Title";
+            // 
+            // label47
+            // 
+            this.label47.AutoSize = true;
+            this.label47.Location = new System.Drawing.Point(3, 26);
+            this.label47.Name = "label47";
+            this.label47.Size = new System.Drawing.Size(41, 24);
+            this.label47.TabIndex = 1;
+            this.label47.Text = "Start Index";
+            // 
+            // label48
+            // 
+            this.label48.AutoSize = true;
+            this.label48.Location = new System.Drawing.Point(3, 52);
+            this.label48.Name = "label48";
+            this.label48.Size = new System.Drawing.Size(53, 24);
+            this.label48.TabIndex = 2;
+            this.label48.Text = "Current Index";
+            // 
+            // label49
+            // 
+            this.label49.AutoSize = true;
+            this.label49.Location = new System.Drawing.Point(3, 78);
+            this.label49.Name = "label49";
+            this.label49.Size = new System.Drawing.Size(41, 12);
+            this.label49.TabIndex = 3;
+            this.label49.Text = "Stride";
+            // 
+            // manual_stride
+            // 
+            this.manual_stride.FormattingEnabled = true;
+            this.manual_stride.Items.AddRange(new object[] {
+            "10",
+            "5",
+            "2",
+            "1"});
+            this.manual_stride.Location = new System.Drawing.Point(72, 81);
+            this.manual_stride.Name = "manual_stride";
+            this.manual_stride.Size = new System.Drawing.Size(63, 20);
+            this.manual_stride.TabIndex = 4;
+            this.manual_stride.Text = "10";
+            this.manual_stride.TextChanged += new System.EventHandler(this.manual_Click);
+            // 
+            // manual_start_index
+            // 
+            this.manual_start_index.Location = new System.Drawing.Point(72, 29);
+            this.manual_start_index.Maximum = new decimal(new int[] {
+            700,
+            0,
+            0,
+            0});
+            this.manual_start_index.Minimum = new decimal(new int[] {
+            400,
+            0,
+            0,
+            0});
+            this.manual_start_index.Name = "manual_start_index";
+            this.manual_start_index.Size = new System.Drawing.Size(63, 21);
+            this.manual_start_index.TabIndex = 5;
+            this.manual_start_index.Value = new decimal(new int[] {
+            400,
+            0,
+            0,
+            0});
+            this.manual_start_index.Increment = 10;
+            this.manual_start_index.TextChanged += new System.EventHandler(this.manual_Click);
+            // 
+            // manual_current_index
+            // 
+            this.manual_current_index.Location = new System.Drawing.Point(72, 55);
+            this.manual_current_index.Maximum = new decimal(new int[] {
+            700,
+            0,
+            0,
+            0});
+            this.manual_current_index.Minimum = new decimal(new int[] {
+            400,
+            0,
+            0,
+            0});
+            this.manual_current_index.Name = "manual_current_index";
+            this.manual_current_index.Size = new System.Drawing.Size(63, 21);
+            this.manual_current_index.TabIndex = 6;
+            this.manual_current_index.Value = new decimal(new int[] {
+            400,
+            0,
+            0,
+            0});
+            this.manual_current_index.Increment = 10;
+            this.manual_current_index.TextChanged += new System.EventHandler(this.manual_Click);
+            // 
+            // manual_title
+            // 
+            this.manual_title.Location = new System.Drawing.Point(72, 3);
+            this.manual_title.Name = "manual_title";
+            this.manual_title.Size = new System.Drawing.Size(63, 21);
+            this.manual_title.TabIndex = 7;
+            this.manual_title.Text = "Mono";
+            this.manual_title.TextChanged += new System.EventHandler(this.manual_Click);
             // 
             // groupBox5
             // 
@@ -2321,6 +2552,14 @@ namespace ASICamera_demo
             this.tableLayoutPanel18.ResumeLayout(false);
             this.tableLayoutPanel18.PerformLayout();
             this.tableLayoutPanel19.ResumeLayout(false);
+            this.tabPage5.ResumeLayout(false);
+            this.groupBox17.ResumeLayout(false);
+            this.tableLayoutPanel21.ResumeLayout(false);
+            this.tableLayoutPanel21.PerformLayout();
+            this.tableLayoutPanel20.ResumeLayout(false);
+            this.tableLayoutPanel20.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.manual_start_index)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.manual_current_index)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox4.ResumeLayout(false);
@@ -2556,6 +2795,22 @@ namespace ASICamera_demo
         private System.Windows.Forms.TextBox mono_search_text2;
         private System.Windows.Forms.TextBox mono_search_text1;
         private System.Windows.Forms.Label exp_label;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel20;
+        private System.Windows.Forms.Label label46;
+        private System.Windows.Forms.Label label47;
+        private System.Windows.Forms.Label label48;
+        private System.Windows.Forms.Label label49;
+        private System.Windows.Forms.ComboBox manual_stride;
+        private System.Windows.Forms.NumericUpDown manual_start_index;
+        private System.Windows.Forms.NumericUpDown manual_current_index;
+        private System.Windows.Forms.TextBox manual_title;
+        private System.Windows.Forms.GroupBox groupBox17;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel21;
+        private System.Windows.Forms.Button manual_clear_button;
+        private System.Windows.Forms.Label manual_file_name;
+        private System.Windows.Forms.Label label51;
+        private System.Windows.Forms.Button manual_save_button;
     }
 }
 

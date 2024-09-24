@@ -525,6 +525,23 @@ namespace ASICamera_demo
                 }
                 SemaphoreHolder.reset.Release();
             }
+            else if (flag == 4)
+            {
+                manual_current_index.Value =
+                    manual_start_index.Value
+                    + Convert.ToInt32(manual_stride.Text) * SemaphoreHolder.manual_count;
+                SemaphoreHolder.manual_count++;
+                m_camera.File_name = manual_title.Text + "_" + manual_current_index.Value;
+                string save_img_dir_path =
+                    m_camera.SelectedFolderPath
+                    + "/"
+                    + Camera.Datetime
+                    + "__"
+                    + m_camera.File_name
+                    + ".png";
+                manual_file_name.Text = m_camera.File_name;
+                save_img(bmp, save_img_dir_path);
+            }
         }
 
         private void save_img(Bitmap bmp, string save_img_dir_path)
@@ -2464,5 +2481,27 @@ namespace ASICamera_demo
                     }
             );
         }
+
+        #region manual capture
+        private void manual_Click(object sender, EventArgs e)
+        {
+            if (sender == manual_clear_button)
+            {
+                SemaphoreHolder.manual_count = 0;
+                this.Invoke(
+                    (MethodInvoker)
+                        delegate
+                        {
+                            manual_current_index.Value = manual_start_index.Value;
+                        }
+                );
+            }
+            else if (sender == manual_current_index) { }
+            else if (sender == manual_save_button)
+            {
+                SemaphoreHolder.is_manual = true;
+            }
+        }
+        #endregion
     }
 }
