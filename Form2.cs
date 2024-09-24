@@ -210,8 +210,11 @@ namespace ASICamera_demo
                     + "]\n";
                 SemaphoreHolder.reset.Release();
                 if (
-                    led_array.Selected_value
-                    == (int)Math.Floor((100.0 / led_array.Stride)) * led_array.Stride
+                    (SemaphoreHolder.is_break)
+                    || (
+                        led_array.Selected_value
+                        == (int)Math.Floor((100.0 / led_array.Stride)) * led_array.Stride
+                    )
                 )
                 {
                     SemaphoreHolder.is_break = false;
@@ -1965,7 +1968,7 @@ namespace ASICamera_demo
                         // 此处的is_std可以认为是乐观锁，允许相机一直读取数据，直到发现曝光改变那就回滚（continue）
                         SemaphoreHolder.is_std = true;
                         SemaphoreHolder.rwLock.ExitWriteLock();
-
+                        SemaphoreHolder.over_exp_count = 0;
                         for (int i = 0; i <= count; i++)
                         {
                             SemaphoreHolder.reset.WaitOne();
@@ -1981,21 +1984,26 @@ namespace ASICamera_demo
                             //SetCameraExposure(val);
                             SemaphoreHolder.set.Release();
                             SemaphoreHolder.refresh.Release();
-                            // 过曝了则提前结束
-                            //if (
-                            //    (
-                            //        m_camera.ImgType == ASICameraDll2.ASI_IMG_TYPE.ASI_IMG_RAW16
-                            //        && m_camera.Max_hist >= 65500
-                            //    )
-                            //    || (
-                            //        m_camera.ImgType == ASICameraDll2.ASI_IMG_TYPE.ASI_IMG_RAW8
-                            //        && m_camera.Max_hist >= 255
-                            //    )
-                            //)
-                            //{
-                            //    SemaphoreHolder.is_break = true;
-                            //    break;
-                            //}
+                            //过曝了则提前结束
+                            if (
+                                (
+                                    m_camera.ImgType == ASICameraDll2.ASI_IMG_TYPE.ASI_IMG_RAW16
+                                    && m_camera.Max_hist >= 65500
+                                )
+                                || (
+                                    m_camera.ImgType == ASICameraDll2.ASI_IMG_TYPE.ASI_IMG_RAW8
+                                    && m_camera.Max_hist >= 255
+                                )
+                            )
+                            {
+                                if (SemaphoreHolder.over_exp_count == 2)
+                                {
+                                    SemaphoreHolder.over_exp_count = 0;
+                                    SemaphoreHolder.is_break = true;
+                                    break;
+                                }
+                                SemaphoreHolder.over_exp_count++;
+                            }
                         }
                         SemaphoreHolder.log.WaitOne();
                         SemaphoreHolder.rwLock.EnterWriteLock();

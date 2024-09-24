@@ -44,6 +44,9 @@ namespace ASICamera_demo
 
         // 手动捕获计数
         public static int manual_count = 0;
+
+        // 过曝计数
+        public static int over_exp_count = 0;
     }
 
     public class Monochromator
