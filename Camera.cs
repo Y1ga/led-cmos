@@ -34,6 +34,7 @@ namespace ASICamera_demo
         public static bool is_auto = false;
         public static bool is_search = false;
         public static bool is_mono_exp = false;
+        public static bool is_break = false;
 
         // 最佳曝光计数
         public static int best_exp_count = 0;
@@ -242,6 +243,7 @@ namespace ASICamera_demo
         private double max_hist;
         private double mean_hist;
         private double std_hist;
+        public Mat save_mat;
 
         private System.Timers.Timer m_timer = new System.Timers.Timer(500); // 实例化Timer类，设置间隔时间为1000毫秒
         Thread captureThread;
@@ -859,6 +861,11 @@ namespace ASICamera_demo
         {
             get => best_exp;
             set => best_exp = value;
+        }
+        public Mat Save_mat
+        {
+            get => save_mat;
+            set => save_mat = value;
         }
 
         public void SetMessageBoxCallBack(MessageBoxCallBack callBack)
@@ -1695,12 +1702,19 @@ namespace ASICamera_demo
                             }
                             byte[] byteArray = new byte[buffersize];
                             Marshal.Copy(buffer, byteArray, 0, buffersize);
-
-                            Marshal.FreeCoTaskMem(buffer);
+                            if (m_imgType == ASICameraDll2.ASI_IMG_TYPE.ASI_IMG_RAW8)
+                            {
+                                save_mat = new Mat(height, width, MatType.CV_8UC1, buffer);
+                            }
+                            else if (m_imgType == ASICameraDll2.ASI_IMG_TYPE.ASI_IMG_RAW16)
+                            {
+                                save_mat = new Mat(height, width, MatType.CV_16UC1, buffer);
+                            }
+                            Cv2.ImWrite("2.png", save_mat);
+                            //Marshal.FreeCoTaskMem(buffer);
                             Bitmap bmp = new Bitmap(width, height);
 
                             int index = 0;
-
                             var lockBitmap = new LockBitmap(bmp);
                             lockBitmap.LockBits();
                             for (int i = 0; i < height; i++)
