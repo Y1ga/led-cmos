@@ -362,7 +362,7 @@ namespace ASICamera_demo
             int iVal = 0;
 
             iVal = ASICameraDll2.ASIGetControlValue(
-                m_iCameraID,
+                ICameraID,
                 ASICameraDll2.ASI_CONTROL_TYPE.ASI_TEMPERATURE
             );
             PopupMessageBox("Get Temperature", iVal);
@@ -440,13 +440,13 @@ namespace ASICamera_demo
                 index++;
             }
 
-            err = ASICameraDll2.ASIOpenCamera(m_iCameraID);
+            err = ASICameraDll2.ASIOpenCamera(ICameraID);
             if (err != ASICameraDll2.ASI_ERROR_CODE.ASI_SUCCESS)
             {
                 return false;
             }
 
-            err = ASICameraDll2.ASIInitCamera(m_iCameraID);
+            err = ASICameraDll2.ASIInitCamera(ICameraID);
             if (err != ASICameraDll2.ASI_ERROR_CODE.ASI_SUCCESS)
             {
                 return false;
@@ -454,11 +454,11 @@ namespace ASICamera_demo
 
             int iCtrlNum;
             ASICameraDll2.ASI_CONTROL_CAPS CtrlCap;
-            ASICameraDll2.ASIGetNumOfControls(m_iCameraID, out iCtrlNum);
+            ASICameraDll2.ASIGetNumOfControls(ICameraID, out iCtrlNum);
 
             for (int i = 0; i < iCtrlNum; i++)
             {
-                ASICameraDll2.ASIGetControlCaps(m_iCameraID, i, out CtrlCap);
+                ASICameraDll2.ASIGetControlCaps(ICameraID, i, out CtrlCap);
                 if (CtrlCap.ControlType == ASICameraDll2.ASI_CONTROL_TYPE.ASI_GAIN)
                 {
                     m_iMaxGainValue = CtrlCap.MaxValue;
@@ -474,28 +474,28 @@ namespace ASICamera_demo
             }
 
             m_iCurrentGainValue = ASICameraDll2.ASIGetControlValue(
-                m_iCameraID,
+                ICameraID,
                 ASICameraDll2.ASI_CONTROL_TYPE.ASI_GAIN
             );
             m_iCurrentExpMs = ASICameraDll2.ASIGetControlValue(
-                m_iCameraID,
+                ICameraID,
                 ASICameraDll2.ASI_CONTROL_TYPE.ASI_EXPOSURE
             );
             m_iCurrentWBB = ASICameraDll2.ASIGetControlValue(
-                m_iCameraID,
+                ICameraID,
                 ASICameraDll2.ASI_CONTROL_TYPE.ASI_WB_B
             );
             m_iCurrentWBR = ASICameraDll2.ASIGetControlValue(
-                m_iCameraID,
+                ICameraID,
                 ASICameraDll2.ASI_CONTROL_TYPE.ASI_WB_R
             );
 
             m_iCurrentBandWidth = ASICameraDll2.ASIGetControlValue(
-                m_iCameraID,
+                ICameraID,
                 ASICameraDll2.ASI_CONTROL_TYPE.ASI_BANDWIDTHOVERLOAD
             );
             m_iTemperature = ASICameraDll2.ASIGetControlValue(
-                m_iCameraID,
+                ICameraID,
                 ASICameraDll2.ASI_CONTROL_TYPE.ASI_TEMPERATURE
             );
 
@@ -503,7 +503,7 @@ namespace ASICamera_demo
                 starty = 0;
             m_iBin = 1;
             err = ASICameraDll2.ASISetROIFormat(
-                m_iCameraID,
+                ICameraID,
                 CamInfoTemp.MaxWidth,
                 CamInfoTemp.MaxHeight,
                 m_iBin,
@@ -515,8 +515,8 @@ namespace ASICamera_demo
             }
             else
             {
-                ASICameraDll2.ASISetStartPos(m_iCameraID, startx, starty);
-                ASICameraDll2.ASIGetStartPos(m_iCameraID, out startx, out starty);
+                ASICameraDll2.ASISetStartPos(ICameraID, startx, starty);
+                ASICameraDll2.ASIGetStartPos(ICameraID, out startx, out starty);
             }
 
             return true;
@@ -535,7 +535,7 @@ namespace ASICamera_demo
 
         public bool close()
         {
-            ASICameraDll2.ASI_ERROR_CODE err = ASICameraDll2.ASICloseCamera(m_iCameraID);
+            ASICameraDll2.ASI_ERROR_CODE err = ASICameraDll2.ASICloseCamera(ICameraID);
             if (err != ASICameraDll2.ASI_ERROR_CODE.ASI_SUCCESS)
                 return false;
             stopCapture();
@@ -550,7 +550,7 @@ namespace ASICamera_demo
 
             if (m_CaptureMode == CaptureMode.Video)
             {
-                ASICameraDll2.ASIStartVideoCapture(m_iCameraID);
+                ASICameraDll2.ASIStartVideoCapture(ICameraID);
                 startCaptureThread();
             }
             else if (m_CaptureMode == CaptureMode.Snap)
@@ -566,7 +566,7 @@ namespace ASICamera_demo
             if (m_CaptureMode == CaptureMode.Video)
             {
                 stopCaptureThread();
-                ASICameraDll2.ASIStopVideoCapture(m_iCameraID);
+                ASICameraDll2.ASIStopVideoCapture(ICameraID);
             }
             else if (m_CaptureMode == CaptureMode.Snap)
             {
@@ -585,10 +585,11 @@ namespace ASICamera_demo
             ASICameraDll2.ASI_BOOL bAuto
         )
         {
-            SemaphoreHolder.rwLock.EnterWriteLock();
             SemaphoreHolder.is_changed = true;
+            SemaphoreHolder.rwLock.EnterWriteLock();
+
             ASICameraDll2.ASI_ERROR_CODE err = ASICameraDll2.ASISetControlValue(
-                m_iCameraID,
+                ICameraID,
                 type,
                 value
             );
@@ -613,7 +614,7 @@ namespace ASICamera_demo
         )
         {
             ASICameraDll2.ASI_ERROR_CODE err = ASICameraDll2.ASISetControlValue(
-                m_iCameraID,
+                ICameraID,
                 type,
                 value
             );
@@ -672,7 +673,7 @@ namespace ASICamera_demo
 
         public bool getControlValue(ASICameraDll2.ASI_CONTROL_TYPE type, out int iValue)
         {
-            iValue = ASICameraDll2.ASIGetControlValue(m_iCameraID, type);
+            iValue = ASICameraDll2.ASIGetControlValue(ICameraID, type);
             /*            ASICameraDll2.ASI_ERROR_CODE err = ASI_ERROR_CODE.ASI_ERROR_BUFFER_TOO_SMALL;
                         if (err == ASICameraDll2.ASI_ERROR_CODE.ASI_SUCCESS)
                         {
@@ -697,7 +698,7 @@ namespace ASICamera_demo
                 ASICameraDll2.ASIGetCameraProperty(out camInfoTemp, 0);
                 m_cameraName = camInfoTemp.Name;
 
-                m_iCameraID = camInfoTemp.CameraID;
+                ICameraID = camInfoTemp.CameraID;
                 m_cameraName = camInfoTemp.Name;
                 m_iMaxWidth = camInfoTemp.MaxWidth;
                 m_iMaxHeight = camInfoTemp.MaxHeight;
@@ -730,6 +731,7 @@ namespace ASICamera_demo
             // 特别是 SemaphoreHolder.is_changed = true
             // 它是开启相机前就预加载好的
             // 明天研究研究开启相机前它是怎么加载setcontrol 和 setroiformat的
+
             SemaphoreHolder.rwLock.EnterWriteLock();
             SemaphoreHolder.is_changed = true;
             bool bCanStartThread = false;
@@ -740,7 +742,7 @@ namespace ASICamera_demo
             }
 
             ASICameraDll2.ASI_ERROR_CODE err = ASICameraDll2.ASISetROIFormat(
-                m_iCameraID,
+                ICameraID,
                 width,
                 height,
                 bin,
@@ -873,6 +875,11 @@ namespace ASICamera_demo
         {
             get => save_mat;
             set => save_mat = value;
+        }
+        public int ICameraID
+        {
+            get => m_iCameraID;
+            set => m_iCameraID = value;
         }
 
         public void SetMessageBoxCallBack(MessageBoxCallBack callBack)
@@ -1083,7 +1090,7 @@ namespace ASICamera_demo
                     {
                         SemaphoreHolder.set.WaitOne();
                         SemaphoreHolder.rwLock.EnterReadLock();
-                        int cameraID = m_iCameraID;
+                        int cameraID = ICameraID;
                         int width = m_iCurWidth;
                         int height = m_iCurHeight;
                         int buffersize = 0;
@@ -1106,7 +1113,7 @@ namespace ASICamera_demo
                                 ASICameraDll2.ASI_CONTROL_TYPE.ASI_EXPOSURE
                             );
                             ASICameraDll2.ASISetControlValue(
-                                m_iCameraID,
+                                ICameraID,
                                 ASICameraDll2.ASI_CONTROL_TYPE.ASI_EXPOSURE,
                                 expMs
                             );
@@ -1265,7 +1272,7 @@ namespace ASICamera_demo
                     {
                         SemaphoreHolder.set.WaitOne();
                         SemaphoreHolder.rwLock.EnterReadLock();
-                        int cameraID = m_iCameraID;
+                        int cameraID = ICameraID;
                         int width = m_iCurWidth;
                         int height = m_iCurHeight;
                         int buffersize = 0;
@@ -1288,7 +1295,7 @@ namespace ASICamera_demo
                                 ASICameraDll2.ASI_CONTROL_TYPE.ASI_EXPOSURE
                             );
                             ASICameraDll2.ASISetControlValue(
-                                m_iCameraID,
+                                ICameraID,
                                 ASICameraDll2.ASI_CONTROL_TYPE.ASI_EXPOSURE,
                                 expMs
                             );
@@ -1447,7 +1454,7 @@ namespace ASICamera_demo
                     {
                         SemaphoreHolder.set.WaitOne();
                         SemaphoreHolder.rwLock.EnterReadLock();
-                        int cameraID = m_iCameraID;
+                        int cameraID = ICameraID;
                         int width = m_iCurWidth;
                         int height = m_iCurHeight;
                         int buffersize = 0;
@@ -1470,7 +1477,7 @@ namespace ASICamera_demo
                                 ASICameraDll2.ASI_CONTROL_TYPE.ASI_EXPOSURE
                             );
                             ASICameraDll2.ASISetControlValue(
-                                m_iCameraID,
+                                ICameraID,
                                 ASICameraDll2.ASI_CONTROL_TYPE.ASI_EXPOSURE,
                                 expMs
                             );
@@ -1635,7 +1642,7 @@ namespace ASICamera_demo
                 else
                 {
                     SemaphoreHolder.rwLock.EnterReadLock();
-                    int cameraID = m_iCameraID;
+                    int cameraID = ICameraID;
                     int width = m_iCurWidth;
                     int height = m_iCurHeight;
                     int buffersize = 0;
@@ -1711,13 +1718,13 @@ namespace ASICamera_demo
                             Marshal.Copy(buffer, byteArray, 0, buffersize);
                             if (m_imgType == ASICameraDll2.ASI_IMG_TYPE.ASI_IMG_RAW8)
                             {
-                                save_mat = new Mat(height, width, MatType.CV_8UC1, buffer);
+                                save_mat = new Mat(height, width, MatType.CV_8UC1, byteArray);
                             }
                             else if (m_imgType == ASICameraDll2.ASI_IMG_TYPE.ASI_IMG_RAW16)
                             {
-                                save_mat = new Mat(height, width, MatType.CV_16UC1, buffer);
+                                save_mat = new Mat(height, width, MatType.CV_16UC1, byteArray);
                             }
-                            //Marshal.FreeCoTaskMem(buffer);
+                            Marshal.FreeCoTaskMem(buffer);
                             Bitmap bmp = new Bitmap(width, height);
 
                             int index = 0;

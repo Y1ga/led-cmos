@@ -178,47 +178,91 @@ namespace ASICamera_demo
         {
             if (flag == 0)
             {
-                SemaphoreHolder.refresh.WaitOne();
-                //更新文件名
-                m_camera.File_name =
-                    "LED" + led_array.Selected_index + "_" + led_array.Selected_value;
-                string save_img_dir_path =
-                    m_camera.SelectedFolderPath
-                    + "/"
-                    + Camera.Datetime
-                    + "__"
-                    + m_camera.File_name
-                    + ".png";
-                label44.Text = Convert.ToString(led_array.Selected_value);
-                save_img(bmp, save_img_dir_path);
-                save_img_name_label.Text =
-                    "LED"
-                    + Convert.ToString(led_array.Selected_index)
-                    + "_"
-                    + Convert.ToString(led_array.Selected_value);
-
-                log +=
-                    Convert.ToString(led_array.Selected_value)
-                    + ": ["
-                    + Convert.ToString(m_camera.Min_hist)
-                    + ","
-                    + Convert.ToString(m_camera.Max_hist)
-                    + ","
-                    + Convert.ToDouble(m_camera.Mean_hist)
-                    + ","
-                    + Convert.ToDouble(m_camera.Std_hist)
-                    + "]\n";
-                SemaphoreHolder.reset.Release();
-                if (
-                    (SemaphoreHolder.is_break)
-                    || (
-                        led_array.Selected_value
-                        == (int)Math.Floor((100.0 / led_array.Stride)) * led_array.Stride
-                    )
-                )
+                if (full_auto_button.Enabled == false)
                 {
-                    SemaphoreHolder.is_break = false;
-                    SemaphoreHolder.log.Release();
+                    SemaphoreHolder.refresh.WaitOne();
+                    //更新文件名
+                    m_camera.File_name =
+                        "LED" + led_array.Selected_index + "_" + led_array.Selected_value;
+                    string save_img_dir_path =
+                        m_camera.SelectedFolderPath + "/" + m_camera.File_name + ".png";
+                    label44.Text = Convert.ToString(led_array.Selected_value);
+                    save_img(bmp, save_img_dir_path);
+
+                    save_img_name_label.Text =
+                        "LED"
+                        + Convert.ToString(led_array.Selected_index)
+                        + "_"
+                        + Convert.ToString(led_array.Selected_value);
+
+                    log +=
+                        Convert.ToString(led_array.Selected_value)
+                        + ": ["
+                        + Convert.ToString(m_camera.Min_hist)
+                        + ","
+                        + Convert.ToString(m_camera.Max_hist)
+                        + ","
+                        + Convert.ToDouble(m_camera.Mean_hist)
+                        + ","
+                        + Convert.ToDouble(m_camera.Std_hist)
+                        + "]\n";
+                    SemaphoreHolder.reset.Release();
+                    if (
+                        (SemaphoreHolder.is_break)
+                        || (
+                            led_array.Selected_value
+                            == (int)Math.Floor((100.0 / led_array.Stride)) * led_array.Stride
+                        )
+                    )
+                    {
+                        SemaphoreHolder.is_break = false;
+                        SemaphoreHolder.log.Release();
+                    }
+                }
+                else if (adaptive_led_exp.Enabled == false)
+                {
+                    {
+                        SemaphoreHolder.refresh.WaitOne();
+                        //更新文件名
+                        m_camera.File_name =
+                            "LED" + led_array.Selected_index + "_" + led_array.Selected_value;
+                        string save_img_dir_path =
+                            m_camera.SelectedFolderPath + "/" + m_camera.File_name + ".png";
+                        label44.Text = Convert.ToString(led_array.Selected_value);
+                        if (m_camera.Max_hist >= 50000)
+                        {
+                            save_img(bmp, save_img_dir_path);
+                        }
+                        save_img_name_label.Text =
+                            "LED"
+                            + Convert.ToString(led_array.Selected_index)
+                            + "_"
+                            + Convert.ToString(led_array.Selected_value);
+
+                        log +=
+                            Convert.ToString(led_array.Selected_value)
+                            + ": ["
+                            + Convert.ToString(m_camera.Min_hist)
+                            + ","
+                            + Convert.ToString(m_camera.Max_hist)
+                            + ","
+                            + Convert.ToDouble(m_camera.Mean_hist)
+                            + ","
+                            + Convert.ToDouble(m_camera.Std_hist)
+                            + "]\n";
+                        SemaphoreHolder.reset.Release();
+                        if (
+                            (SemaphoreHolder.is_break)
+                            || (
+                                led_array.Selected_value
+                                == (int)Math.Floor((100.0 / led_array.Stride)) * led_array.Stride
+                            )
+                        )
+                        {
+                            SemaphoreHolder.is_break = false;
+                            SemaphoreHolder.log.Release();
+                        }
+                    }
                 }
             }
             else if (flag == 1)
@@ -227,12 +271,7 @@ namespace ASICamera_demo
                 //更新文件名
                 m_camera.File_name = "Mono" + "_" + monochromator.Selected_spectrum;
                 string save_img_dir_path =
-                    m_camera.SelectedFolderPath
-                    + "/"
-                    + Camera.Datetime
-                    + "__"
-                    + m_camera.File_name
-                    + ".png";
+                    m_camera.SelectedFolderPath + "/" + m_camera.File_name + ".png";
                 label44.Text = Convert.ToString(led_array.Selected_value);
                 save_img(bmp, save_img_dir_path);
 
@@ -270,12 +309,7 @@ namespace ASICamera_demo
                     m_camera.File_name =
                         "EXP_LED" + led_array.Selected_index + "_" + led_array.Selected_value;
                     string save_img_dir_path =
-                        m_camera.SelectedFolderPath
-                        + "/"
-                        + Camera.Datetime
-                        + "__"
-                        + m_camera.File_name
-                        + ".png";
+                        m_camera.SelectedFolderPath + "/" + m_camera.File_name + ".png";
                     label44.Text =
                         "EXP_LED"
                         + Convert.ToString(led_array.Selected_index)
@@ -380,12 +414,7 @@ namespace ASICamera_demo
                     m_camera.File_name =
                         "EXP_LED" + led_array.Selected_index + "_" + led_array.Selected_value;
                     string save_img_dir_path =
-                        m_camera.SelectedFolderPath
-                        + "/"
-                        + Camera.Datetime
-                        + "__"
-                        + m_camera.File_name
-                        + ".png";
+                        m_camera.SelectedFolderPath + "/" + m_camera.File_name + ".png";
                     label44.Text =
                         "LED"
                         + Convert.ToString(led_array.Selected_index)
@@ -483,12 +512,7 @@ namespace ASICamera_demo
                 SemaphoreHolder.refresh.WaitOne();
                 m_camera.File_name = "Mono_EXP" + "_" + monochromator.Selected_spectrum;
                 string save_img_dir_path =
-                    m_camera.SelectedFolderPath
-                    + "/"
-                    + Camera.Datetime
-                    + "__"
-                    + m_camera.File_name
-                    + ".png";
+                    m_camera.SelectedFolderPath + "/" + m_camera.File_name + ".png";
                 save_img_name_label.Text =
                     "Mono_EXP" + "_" + Convert.ToString(monochromator.Selected_spectrum);
                 if (SemaphoreHolder.best_exp_count == SemaphoreHolder.best_exp_count_tolerance)
@@ -536,12 +560,7 @@ namespace ASICamera_demo
                 SemaphoreHolder.manual_count++;
                 m_camera.File_name = manual_title.Text + "_" + manual_current_index.Value;
                 string save_img_dir_path =
-                    m_camera.SelectedFolderPath
-                    + "/"
-                    + Camera.Datetime
-                    + "__"
-                    + m_camera.File_name
-                    + ".png";
+                    m_camera.SelectedFolderPath + "/" + m_camera.File_name + ".png";
                 manual_file_name.Text = m_camera.File_name;
                 save_img(bmp, save_img_dir_path);
             }
@@ -1453,9 +1472,33 @@ namespace ASICamera_demo
 
             int val = (int)spinBox_exposure.Value;
 
-            SetCameraExposure(val);
+            if (
+                m_camera.setControlValue(
+                    ASICameraDll2.ASI_CONTROL_TYPE.ASI_EXPOSURE,
+                    val,
+                    ASICameraDll2.ASI_BOOL.ASI_FALSE
+                )
+            )
             {
                 trackBar_exposure.Value = val;
+            }
+        }
+
+        private bool SetCameraExposureGeneral(int val)
+        {
+            ASICameraDll2.ASI_ERROR_CODE err = ASICameraDll2.ASISetControlValue(
+                m_camera.ICameraID,
+                ASICameraDll2.ASI_CONTROL_TYPE.ASI_EXPOSURE,
+                val
+            );
+
+            if (err == ASICameraDll2.ASI_ERROR_CODE.ASI_SUCCESS)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -2310,18 +2353,17 @@ namespace ASICamera_demo
                             ASICameraDll2.ASI_CONTROL_TYPE.ASI_EXPOSURE,
                             out expMs
                         );
+                        log += "Exp Time: " + expMs + "\n";
+                        log += "LED" + led_array.Selected_index + "\n";
                         for (int i = 0; i < 16; i++)
                         {
                             led_array.Value[i] = 0;
                         }
                         SendLEDValues();
-                        // protect_std被注释，可能会出问题！！！
-                        //SemaphoreHolder.protect_std.WaitOne();
                         SemaphoreHolder.rwLock.EnterWriteLock();
-                        // 此处的is_std可以认为是乐观锁，允许相机一直读取数据，直到发现曝光改变那就回滚（continue）
                         SemaphoreHolder.is_std = true;
                         SemaphoreHolder.rwLock.ExitWriteLock();
-
+                        SemaphoreHolder.over_exp_count = 0;
                         for (int i = 0; i <= count; i++)
                         {
                             SemaphoreHolder.reset.WaitOne();
@@ -2330,22 +2372,49 @@ namespace ASICamera_demo
                             led_array.Value[led_array.Selected_index - 1] =
                                 led_array.Selected_value;
                             SendLEDValues();
+                            // 由于SendLEDValues的大部分操作在主线程完成
+                            // 此时已经完成主线程 “发送完->再接收”的同步，因此“生产者-消费者问题”只需要一个信号量
                             SemaphoreHolder.send.WaitOne();
+                            // SetCameraExposure()内调用的函数里已经有写锁保护,不需要再加
+                            //SetCameraExposure(val);
                             SemaphoreHolder.set.Release();
                             SemaphoreHolder.refresh.Release();
+                            //过曝了则提前结束
+                            if (
+                                (
+                                    m_camera.ImgType == ASICameraDll2.ASI_IMG_TYPE.ASI_IMG_RAW16
+                                    && m_camera.Max_hist >= 65500
+                                )
+                                || (
+                                    m_camera.ImgType == ASICameraDll2.ASI_IMG_TYPE.ASI_IMG_RAW8
+                                    && m_camera.Max_hist >= 255
+                                )
+                            )
+                            {
+                                if (SemaphoreHolder.over_exp_count == 2)
+                                {
+                                    SemaphoreHolder.over_exp_count = 0;
+                                    SemaphoreHolder.is_break = true;
+                                    break;
+                                }
+                                SemaphoreHolder.over_exp_count++;
+                            }
                         }
+                        SemaphoreHolder.log.WaitOne();
+                        SemaphoreHolder.rwLock.EnterWriteLock();
+                        SemaphoreHolder.is_std = false;
+                        SemaphoreHolder.rwLock.ExitWriteLock();
 
                         led_array.Selected_index++;
                     }
-                    SemaphoreHolder.log.WaitOne();
-                    SemaphoreHolder.rwLock.EnterWriteLock();
-                    SemaphoreHolder.is_std = false;
-                    SemaphoreHolder.rwLock.ExitWriteLock();
                     try
                     {
                         // 直接将字符串写入文件，如果文件已存在则覆盖
                         File.WriteAllText(
-                            m_camera.SelectedFolderPath + "/" + Camera.Datetime + ".txt",
+                            m_camera.SelectedFolderPath
+                                + "/"
+                                + Camera.Datetime
+                                + "LED_adaptive.txt",
                             log
                         );
                         log = "";

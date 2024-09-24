@@ -1070,6 +1070,11 @@ namespace ASICamera_demo
             // 
             // manual_start_index
             // 
+            this.manual_start_index.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             this.manual_start_index.Location = new System.Drawing.Point(72, 29);
             this.manual_start_index.Maximum = new decimal(new int[] {
             700,
@@ -1089,11 +1094,15 @@ namespace ASICamera_demo
             0,
             0,
             0});
-            this.manual_start_index.Increment = 10;
             this.manual_start_index.TextChanged += new System.EventHandler(this.manual_Click);
             // 
             // manual_current_index
             // 
+            this.manual_current_index.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             this.manual_current_index.Location = new System.Drawing.Point(72, 55);
             this.manual_current_index.Maximum = new decimal(new int[] {
             700,
@@ -1113,7 +1122,6 @@ namespace ASICamera_demo
             0,
             0,
             0});
-            this.manual_current_index.Increment = 10;
             this.manual_current_index.TextChanged += new System.EventHandler(this.manual_Click);
             // 
             // manual_title
