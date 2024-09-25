@@ -682,8 +682,10 @@ namespace ASICamera_demo
                 ledLabels[i].Text = "LED" + (i + 1);
                 ledSpinBoxs[i].Maximum = 100;
                 ledSpinBoxs[i].Minimum = 0;
-                ledSpinBoxs[i].Value = 0;
+                ledSpinBoxs[i].Value = 30;
+                numericUpDown17.Value = 20;
                 ledSpinBoxs[i].Increment = numericUpDown17.Value;
+                led_array.Value[i] = (byte)ledSpinBoxs[i].Value;
                 ledSpinBoxs[i].ValueChanged += UpdateLED;
             }
             // 开启程序后默认打开相机
