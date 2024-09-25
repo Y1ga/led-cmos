@@ -42,7 +42,7 @@ namespace ASICamera_demo
         // 最佳曝光计数
         public static int best_exp_count = 0;
         public static int tolerance_count = 0;
-        public static int best_exp_count_tolerance = 3;
+        public static int best_exp_count_tolerance = 5;
 
         // 手动捕获计数
         public static int manual_count = 0;

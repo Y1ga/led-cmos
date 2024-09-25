@@ -1469,26 +1469,43 @@ namespace ASICamera_demo
             if (m_camera.ImgType == ASICameraDll2.ASI_IMG_TYPE.ASI_IMG_RAW8)
             {
                 int expMs;
+                double ref_expMs = 250;
+                double alpha = 0;
                 m_camera.getControlValue(ASICameraDll2.ASI_CONTROL_TYPE.ASI_EXPOSURE, out expMs);
                 // 需要sleep保证得到的上一帧曝光时间无误
                 Thread.Sleep(200);
                 // 1. 快启动阶段
                 if (m_camera.Max_hist < 240)
                 {
-                    val = (int)(expMs * 240 / (Convert.ToInt32(m_camera.Max_hist + 1)));
+                    ref_expMs = 245;
+                    alpha = 0;
+                    val = update_expms(expMs, ref_expMs, alpha);
                 }
                 // 2. 拥塞避免阶段
                 else if (m_camera.Max_hist >= 240 && m_camera.Max_hist < 250)
                 {
-                    val = (int)(
-                        expMs * 240 / (Convert.ToInt32(m_camera.Max_hist + 1)) + expMs * 1.5 / 255
-                    );
+                    alpha = 1;
+                    val = update_expms(expMs, ref_expMs, alpha);
                 }
-                else if (m_camera.Max_hist >= 250 && m_camera.Max_hist < 252)
+                else if (m_camera.Max_hist >= 250 && m_camera.Max_hist <= 252)
                 {
-                    val = (int)(
-                        expMs * 250 / (Convert.ToInt32(m_camera.Max_hist + 1)) + expMs * 0.25 / 255
-                    );
+                    ref_expMs = 254;
+                    alpha = 0.025;
+                    val = update_expms(expMs, ref_expMs, alpha);
+                }
+                // 5.接近完美的数值
+                else if (m_camera.Max_hist >= 253 && m_camera.Max_hist <= 254)
+                {
+                    if (m_camera.Best_exp == expMs)
+                    {
+                        SemaphoreHolder.best_exp_count++;
+                    }
+                    else
+                    {
+                        SemaphoreHolder.best_exp_count = 0;
+                    }
+                    m_camera.Best_exp = expMs;
+                    val = m_camera.Best_exp;
                 }
                 // 3. 拥塞发生
                 // 问题很大，明天解决。
@@ -1500,12 +1517,11 @@ namespace ASICamera_demo
                 else if (m_camera.Max_hist == 255)
                 {
                     SemaphoreHolder.best_exp_count = 0;
-                    int b = (int)(5 * expMs / 255);
                     // 4.快速恢复
                     if (m_camera.Best_exp > 0 && SemaphoreHolder.tolerance_count < 3)
                     {
                         SemaphoreHolder.tolerance_count++;
-                        val = (int)(m_camera.Best_exp - (int)(b));
+                        val = (int)(m_camera.Best_exp - 5 * expMs / 255);
                     }
                     // 3.拥塞发生,直接设为原来一半
                     else
@@ -1518,24 +1534,6 @@ namespace ASICamera_demo
                         SemaphoreHolder.best_exp_count = 0;
                     }
                 }
-                // 5.接近完美的数值
-                else if (m_camera.Max_hist >= 252 && m_camera.Max_hist <= 254)
-                {
-                    if (m_camera.Best_exp == expMs)
-                    {
-                        SemaphoreHolder.best_exp_count++;
-                    }
-                    else
-                    {
-                        SemaphoreHolder.best_exp_count = 0;
-                    }
-                    m_camera.Best_exp = expMs;
-                    val = m_camera.Best_exp;
-                    //val = (int)(
-                    //    expMs * 254 / (Convert.ToInt32(m_camera.Max_hist + 1)) + 0.75 / 255 * expMs
-                    //);
-                }
-
                 m_camera.setControlValueAuto(
                     ASICameraDll2.ASI_CONTROL_TYPE.ASI_EXPOSURE,
                     val,
@@ -1546,32 +1544,52 @@ namespace ASICamera_demo
             else if (m_camera.ImgType == ASICameraDll2.ASI_IMG_TYPE.ASI_IMG_RAW16)
             {
                 int expMs;
+                double ref_expMs = 250;
+                double alpha = 0;
                 double max_hist = Math.Floor(m_camera.Max_hist / 256);
                 m_camera.getControlValue(ASICameraDll2.ASI_CONTROL_TYPE.ASI_EXPOSURE, out expMs);
                 Thread.Sleep(200);
                 // 1. 快启动阶段
                 if (max_hist < 240)
                 {
-                    val = (int)(expMs * 240 / (Convert.ToInt32(max_hist + 1)));
+                    ref_expMs = 245;
+                    alpha = 0;
+                    val = update_expms(expMs, ref_expMs, alpha);
                 }
                 // 2. 拥塞避免阶段
                 else if (max_hist >= 240 && max_hist < 250)
                 {
-                    val = (int)(expMs * 250 / (Convert.ToInt32(max_hist + 1)) + expMs * 1.5 / 255);
+                    alpha = 1;
+                    val = update_expms(expMs, ref_expMs, alpha);
                 }
-                else if (max_hist >= 250 && max_hist < 252)
+                else if (max_hist >= 250 && max_hist <= 252)
                 {
-                    val = (int)(expMs * 254 / (Convert.ToInt32(max_hist + 1)) + expMs * 0.25 / 255);
+                    ref_expMs = 254;
+                    alpha = 0.025;
+                    val = update_expms(expMs, ref_expMs, alpha);
+                }
+                // 5.接近完美的数值
+                else if (max_hist >= 253 && max_hist <= 256 && m_camera.Max_hist < 65500)
+                {
+                    if (m_camera.Best_exp == expMs)
+                    {
+                        SemaphoreHolder.best_exp_count++;
+                    }
+                    else
+                    {
+                        SemaphoreHolder.best_exp_count = 0;
+                    }
+                    m_camera.Best_exp = expMs;
+                    val = m_camera.Best_exp;
                 }
                 else if (m_camera.Max_hist >= 65500)
                 {
-                    int b = (int)(5 * expMs / 255);
                     SemaphoreHolder.best_exp_count = 0;
                     // 4.快速恢复
                     if (m_camera.Best_exp > 0 && SemaphoreHolder.tolerance_count < 3)
                     {
                         SemaphoreHolder.tolerance_count++;
-                        val = (int)(m_camera.Best_exp - (int)(b));
+                        val = (int)(m_camera.Best_exp - 5 * expMs / 255);
                     }
                     // 3.拥塞发生,直接设为原来一半
                     else
@@ -1584,24 +1602,6 @@ namespace ASICamera_demo
                         SemaphoreHolder.best_exp_count = 0;
                     }
                 }
-                // 5.接近完美的数值
-                else if (max_hist >= 252 && max_hist <= 254)
-                {
-                    if (m_camera.Best_exp == expMs)
-                    {
-                        SemaphoreHolder.best_exp_count++;
-                    }
-                    else
-                    {
-                        SemaphoreHolder.best_exp_count = 0;
-                    }
-                    m_camera.Best_exp = expMs;
-                    val = m_camera.Best_exp;
-                    //val = (int)(
-                    //    expMs * 254 / (Convert.ToInt32(max_hist + 1)) + 0.75 / 255 * expMs
-                    //);
-                }
-
                 m_camera.setControlValueAuto(
                     ASICameraDll2.ASI_CONTROL_TYPE.ASI_EXPOSURE,
                     val,
@@ -1610,6 +1610,27 @@ namespace ASICamera_demo
                 return val;
             }
             return -1;
+
+            int update_expms(int expMs, double ref_expms, double alpha)
+            {
+                if (m_camera.ImgType == ASICameraDll2.ASI_IMG_TYPE.ASI_IMG_RAW8)
+                {
+                    return (int)
+                        Math.Floor(
+                            expMs
+                                * (
+                                    ref_expms / Convert.ToDouble(m_camera.Max_hist + 1)
+                                    + alpha / 255
+                                )
+                        );
+                }
+                else if (m_camera.ImgType == ASICameraDll2.ASI_IMG_TYPE.ASI_IMG_RAW16)
+                {
+                    double max_hist = Math.Floor(m_camera.Max_hist / 256);
+                    return (int)Math.Floor(expMs * (ref_expms / (max_hist + 1) + alpha / 255));
+                }
+                return -1;
+            }
         }
 
         private void SetCameraExposure(int val)
