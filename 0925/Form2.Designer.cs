@@ -1671,6 +1671,7 @@ namespace ASICamera_demo
             0,
             0});
             this.numericUpDown17.Name = "numericUpDown17";
+            this.numericUpDown17.Value = 20;
             this.numericUpDown17.Size = new System.Drawing.Size(46, 21);
             this.numericUpDown17.TabIndex = 2;
             this.numericUpDown17.Value = new decimal(new int[] {
