@@ -1092,6 +1092,7 @@ namespace ASICamera_demo
                             if (err == ASICameraDll2.ASI_ERROR_CODE.ASI_SUCCESS)
                             {
                                 byte[] byteArray = copy_buffer(width, height, buffersize);
+                                get_save_mat(width, height, byteArray);
                                 Bitmap bmp = byte_to_bitmap(width, height, byteArray);
                                 SemaphoreHolder.rwLock.ExitReadLock();
                                 // 委托主线程事件,虽然主线程还在is_reset.waitOne()但由于是异步委托,因此子线程会继续执行到is_reset.Release()
@@ -1121,6 +1122,7 @@ namespace ASICamera_demo
                             if (err == ASICameraDll2.ASI_ERROR_CODE.ASI_SUCCESS)
                             {
                                 byte[] byteArray = copy_buffer(width, height, buffersize);
+                                get_save_mat(width, height, byteArray);
                                 Bitmap bmp = byte_to_bitmap(width, height, byteArray);
                                 SemaphoreHolder.rwLock.ExitReadLock();
                                 // 委托主线程事件,虽然主线程还在is_reset.waitOne()但由于是异步委托,因此子线程会继续执行到is_reset.Release()
@@ -1150,6 +1152,7 @@ namespace ASICamera_demo
                             if (err == ASICameraDll2.ASI_ERROR_CODE.ASI_SUCCESS)
                             {
                                 byte[] byteArray = copy_buffer(width, height, buffersize);
+                                get_save_mat(width, height, byteArray);
                                 Bitmap bmp = byte_to_bitmap(width, height, byteArray);
                                 SemaphoreHolder.rwLock.ExitReadLock();
                                 // 委托主线程事件,虽然主线程还在is_reset.waitOne()但由于是异步委托,因此子线程会继续执行到is_reset.Release()
