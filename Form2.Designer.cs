@@ -218,6 +218,7 @@ namespace ASICamera_demo
             this.label22 = new System.Windows.Forms.Label();
             this.cbSendCoding = new System.Windows.Forms.ComboBox();
             this.serialPort = new System.IO.Ports.SerialPort(this.components);
+            this.save_exp_time_button = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -390,7 +391,7 @@ namespace ASICamera_demo
             this.stop_mono.AutoSize = true;
             this.stop_mono.Location = new System.Drawing.Point(3, 27);
             this.stop_mono.Name = "stop_mono";
-            this.stop_mono.Size = new System.Drawing.Size(39, 19);
+            this.stop_mono.Size = new System.Drawing.Size(45, 19);
             this.stop_mono.TabIndex = 1;
             this.stop_mono.Text = "Stop";
             this.stop_mono.UseVisualStyleBackColor = true;
@@ -919,6 +920,7 @@ namespace ASICamera_demo
             // 
             // tabPage5
             // 
+            this.tabPage5.Controls.Add(this.save_exp_time_button);
             this.tabPage5.Controls.Add(this.groupBox17);
             this.tabPage5.Controls.Add(this.tableLayoutPanel20);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
@@ -1076,16 +1078,6 @@ namespace ASICamera_demo
             0,
             0});
             this.manual_start_index.Location = new System.Drawing.Point(72, 29);
-            this.manual_start_index.Maximum = new decimal(new int[] {
-            700,
-            0,
-            0,
-            0});
-            this.manual_start_index.Minimum = new decimal(new int[] {
-            400,
-            0,
-            0,
-            0});
             this.manual_start_index.Name = "manual_start_index";
             this.manual_start_index.Size = new System.Drawing.Size(63, 21);
             this.manual_start_index.TabIndex = 5;
@@ -1103,17 +1095,8 @@ namespace ASICamera_demo
             0,
             0,
             0});
+            this.manual_current_index.Maximum = 10000;
             this.manual_current_index.Location = new System.Drawing.Point(72, 55);
-            this.manual_current_index.Maximum = new decimal(new int[] {
-            700,
-            0,
-            0,
-            0});
-            this.manual_current_index.Minimum = new decimal(new int[] {
-            400,
-            0,
-            0,
-            0});
             this.manual_current_index.Name = "manual_current_index";
             this.manual_current_index.Size = new System.Drawing.Size(63, 21);
             this.manual_current_index.TabIndex = 6;
@@ -1599,17 +1582,17 @@ namespace ASICamera_demo
             this.single_auto_button.Text = "Auto";
             this.single_auto_button.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.single_auto_button.UseVisualStyleBackColor = true;
-            this.single_auto_button.Click += new System.EventHandler(this.single_auto_button_Click);
+            this.single_auto_button.Click += new System.EventHandler(this.auto_button_Click);
             // 
             // full_auto_button
             // 
             this.full_auto_button.Location = new System.Drawing.Point(159, 13);
             this.full_auto_button.Name = "full_auto_button";
-            this.full_auto_button.Size = new System.Drawing.Size(75, 23);
+            this.full_auto_button.Size = new System.Drawing.Size(73, 23);
             this.full_auto_button.TabIndex = 7;
             this.full_auto_button.Text = "Full Auto";
             this.full_auto_button.UseVisualStyleBackColor = true;
-            this.full_auto_button.Click += new System.EventHandler(this.single_auto_button_Click);
+            this.full_auto_button.Click += new System.EventHandler(this.auto_button_Click);
             // 
             // label44
             // 
@@ -1683,7 +1666,7 @@ namespace ASICamera_demo
             // 
             this.send_button.Location = new System.Drawing.Point(3, 70);
             this.send_button.Name = "send_button";
-            this.send_button.Size = new System.Drawing.Size(50, 21);
+            this.send_button.Size = new System.Drawing.Size(50, 20);
             this.send_button.TabIndex = 3;
             this.send_button.Text = "Set";
             this.send_button.UseVisualStyleBackColor = true;
@@ -1911,7 +1894,7 @@ namespace ASICamera_demo
             // 
             this.numericUpDown4.Location = new System.Drawing.Point(291, 3);
             this.numericUpDown4.Name = "numericUpDown4";
-            this.numericUpDown4.Size = new System.Drawing.Size(31, 21);
+            this.numericUpDown4.Size = new System.Drawing.Size(30, 21);
             this.numericUpDown4.TabIndex = 18;
             // 
             // numericUpDown5
@@ -1939,7 +1922,7 @@ namespace ASICamera_demo
             // 
             this.numericUpDown8.Location = new System.Drawing.Point(291, 29);
             this.numericUpDown8.Name = "numericUpDown8";
-            this.numericUpDown8.Size = new System.Drawing.Size(31, 21);
+            this.numericUpDown8.Size = new System.Drawing.Size(30, 21);
             this.numericUpDown8.TabIndex = 22;
             // 
             // numericUpDown9
@@ -1967,7 +1950,7 @@ namespace ASICamera_demo
             // 
             this.numericUpDown12.Location = new System.Drawing.Point(291, 55);
             this.numericUpDown12.Name = "numericUpDown12";
-            this.numericUpDown12.Size = new System.Drawing.Size(31, 21);
+            this.numericUpDown12.Size = new System.Drawing.Size(30, 21);
             this.numericUpDown12.TabIndex = 26;
             // 
             // numericUpDown13
@@ -1997,7 +1980,7 @@ namespace ASICamera_demo
             this.numericUpDown16.Enabled = false;
             this.numericUpDown16.Location = new System.Drawing.Point(291, 81);
             this.numericUpDown16.Name = "numericUpDown16";
-            this.numericUpDown16.Size = new System.Drawing.Size(31, 21);
+            this.numericUpDown16.Size = new System.Drawing.Size(30, 21);
             this.numericUpDown16.TabIndex = 30;
             // 
             // tableLayoutPanel1
@@ -2514,6 +2497,16 @@ namespace ASICamera_demo
             // 
             this.serialPort.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort_DataReceived);
             // 
+            // save_exp_time_button
+            // 
+            this.save_exp_time_button.AutoSize = true;
+            this.save_exp_time_button.Location = new System.Drawing.Point(153, 0);
+            this.save_exp_time_button.Name = "save_exp_time_button";
+            this.save_exp_time_button.Size = new System.Drawing.Size(102, 16);
+            this.save_exp_time_button.TabIndex = 5;
+            this.save_exp_time_button.Text = "Save Exp TIme";
+            this.save_exp_time_button.UseVisualStyleBackColor = true;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -2561,6 +2554,7 @@ namespace ASICamera_demo
             this.tableLayoutPanel18.PerformLayout();
             this.tableLayoutPanel19.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
+            this.tabPage5.PerformLayout();
             this.groupBox17.ResumeLayout(false);
             this.tableLayoutPanel21.ResumeLayout(false);
             this.tableLayoutPanel21.PerformLayout();
@@ -2819,6 +2813,7 @@ namespace ASICamera_demo
         private System.Windows.Forms.Label manual_file_name;
         private System.Windows.Forms.Label label51;
         private System.Windows.Forms.Button manual_save_button;
+        private System.Windows.Forms.CheckBox save_exp_time_button;
     }
 }
 
